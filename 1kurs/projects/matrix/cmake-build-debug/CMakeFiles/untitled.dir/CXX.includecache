@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/arseniy/Documents/MIREA/1kurs/projects/matrix/matrix.cpp
+iostream
+-
+vector
+-
+ctime
+-
+cstdlib
+-
+

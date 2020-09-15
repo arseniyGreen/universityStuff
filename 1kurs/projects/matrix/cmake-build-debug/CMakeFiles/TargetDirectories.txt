@@ -1,0 +1,3 @@
+/home/arseniy/Documents/MIREA/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/arseniy/Documents/MIREA/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/arseniy/Documents/MIREA/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/untitled.dir
