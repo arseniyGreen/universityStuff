@@ -15,10 +15,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62c4576e-148c-4836-8263-c6691a9dfdbf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/MIREA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MIREA.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1kurs/matrix.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1kurs/matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/.qmake.stash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/CalculatorKTSO-02-20.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/Makefile.Debug" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/Makefile.Release" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/main.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/mainwindow.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/moc_mainwindow.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/moc_mainwindow.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/moc_predefs.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/laba1/ui_mainwindow.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/untitled.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/CMakeFiles/untitled.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/1kurs/projects/matrix/cmake-build-debug/Makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,9 +59,9 @@
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="untitled" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="untitled" TARGET_NAME="untitled" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="untitled" RUN_TARGET_NAME="untitled">
@@ -72,6 +86,7 @@
       <workItem from="1599578652118" duration="5387000" />
       <workItem from="1600156316916" duration="545000" />
       <workItem from="1600156885145" duration="1740000" />
+      <workItem from="1600599110208" duration="1290000" />
     </task>
     <servers />
   </component>
