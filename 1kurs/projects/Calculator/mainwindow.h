@@ -26,6 +26,8 @@ private slots:
 
     void on_countButton_clicked();
 
+    void on_clearButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

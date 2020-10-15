@@ -59,6 +59,7 @@ void MainWindow::on_countButton_clicked()
 {
     QString op1 = ui->firstInput->text();
     QString op2 = ui->secondInput->text();
+    QPalette errorPalette;
 
     bool okX, okY;
     double x = op1.toDouble(&okX);
@@ -91,4 +92,53 @@ void MainWindow::on_countButton_clicked()
             ui->outputLine->setText(resText);
         }
     }
+    else //errors trace
+    {
+        ui->outputLine->setText("Error! Check above!"); //empty input
+        if(ui->firstInput->text() == "" && ui->secondInput->text() == "")
+        //both are empty
+            {
+                ui->firstInput->setText("EMPTY INPUT!");
+                ui->secondInput->setText("EMPTY INPUT!");
+            }
+            else if(ui->firstInput->text() == "") //first is empty
+            {
+                ui->firstInput->setText("EMPTY INPUT!");
+                if(!okY) ui->secondInput->setText("NOT A NUMBER!");
+            }
+            else if(ui->secondInput->text() == "")
+            {
+                ui->secondInput->setText("EMPTY INPUT!");
+                if(!okX) ui->firstInput->setText("NOT A NUMBER!");
+            }
+
+            //not a numbers input
+            else if(!okX && !okY) //both are not numbers
+            {
+                ui->firstInput->setText("NOT A NUMBER!");
+                ui->secondInput->setText("NOT A NUMBER!");
+            }
+            else if(!okX) //first is not a number
+            {
+                ui->firstInput->setText("NOT A NUMBER!");
+                if(ui->secondInput->text() == "") ui->secondInput->setText("EMPTY INPUT!");
+            }
+            else if(!okY) //second is not a number
+            {
+                ui->secondInput->setText("NOT A NUMBER!");
+                if(ui->firstInput->text() == "") ui->firstInput->setText("EMPTY INPUT!");
+            }
+        if(ui->multiplyButton->isChecked())
+        {
+
+        }
+    }
 }
+
+void MainWindow::on_clearButton_clicked()
+{
+    ui->firstInput->clear();
+    ui->secondInput->clear();
+    ui->outputLine->clear();
+}
+
