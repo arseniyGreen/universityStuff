@@ -49,7 +49,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(244, 387);
+        MainWindow->resize(217, 383);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -57,23 +57,23 @@ public:
         secondInput = new QLineEdit(centralwidget);
         secondInput->setObjectName(QString::fromUtf8("secondInput"));
 
-        gridLayout->addWidget(secondInput, 3, 0, 1, 1);
+        gridLayout->addWidget(secondInput, 3, 1, 1, 1);
 
         firstInput = new QLineEdit(centralwidget);
         firstInput->setObjectName(QString::fromUtf8("firstInput"));
 
-        gridLayout->addWidget(firstInput, 1, 0, 1, 1);
+        gridLayout->addWidget(firstInput, 1, 1, 1, 1);
 
         outputLine = new QLineEdit(centralwidget);
         outputLine->setObjectName(QString::fromUtf8("outputLine"));
         outputLine->setReadOnly(true);
 
-        gridLayout->addWidget(outputLine, 7, 0, 1, 1);
+        gridLayout->addWidget(outputLine, 7, 1, 1, 1);
 
         secondLabel = new QLabel(centralwidget);
         secondLabel->setObjectName(QString::fromUtf8("secondLabel"));
 
-        gridLayout->addWidget(secondLabel, 2, 0, 1, 1, Qt::AlignHCenter);
+        gridLayout->addWidget(secondLabel, 2, 1, 1, 1, Qt::AlignHCenter);
 
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
@@ -101,27 +101,28 @@ public:
         gridLayout_2->addWidget(minusButton, 0, 1, 1, 1);
 
 
-        gridLayout->addWidget(groupBox, 4, 0, 1, 1);
+        gridLayout->addWidget(groupBox, 4, 1, 1, 1);
 
         firstLabel = new QLabel(centralwidget);
         firstLabel->setObjectName(QString::fromUtf8("firstLabel"));
 
-        gridLayout->addWidget(firstLabel, 0, 0, 1, 1, Qt::AlignHCenter);
+        gridLayout->addWidget(firstLabel, 0, 1, 1, 1, Qt::AlignHCenter);
 
         countButton = new QPushButton(centralwidget);
         countButton->setObjectName(QString::fromUtf8("countButton"));
+        countButton->setMinimumSize(QSize(205, 0));
 
-        gridLayout->addWidget(countButton, 5, 0, 1, 1);
+        gridLayout->addWidget(countButton, 5, 1, 1, 1);
 
         outLabel = new QLabel(centralwidget);
         outLabel->setObjectName(QString::fromUtf8("outLabel"));
 
-        gridLayout->addWidget(outLabel, 6, 0, 1, 1, Qt::AlignHCenter);
+        gridLayout->addWidget(outLabel, 6, 1, 1, 1, Qt::AlignHCenter);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 244, 30));
+        menubar->setGeometry(QRect(0, 0, 217, 30));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -134,7 +135,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Calculator", nullptr));
         secondLabel->setText(QCoreApplication::translate("MainWindow", "Second Summand", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Operands", nullptr));
         plusButton->setText(QCoreApplication::translate("MainWindow", "+", nullptr));

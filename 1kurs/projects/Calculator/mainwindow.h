@@ -22,6 +22,10 @@ private slots:
 
     void on_multiplyButton_toggled(bool checked);
 
+    void on_divideButton_toggled(bool checked);
+
+    void on_countButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
