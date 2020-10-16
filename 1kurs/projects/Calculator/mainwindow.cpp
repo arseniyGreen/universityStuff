@@ -141,4 +141,4 @@ void MainWindow::on_clearButton_clicked()
     ui->secondInput->clear();
     ui->outputLine->clear();
 }
-
+//asdf
