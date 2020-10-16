@@ -95,6 +95,9 @@ void MainWindow::on_countButton_clicked()
     QString op1 = ui->firstInput->text();
     QString op2 = ui->secondInput->text();
     QPalette errorPalette;
+    QPalette defaultPalette;
+    errorPalette.setColor(QPalette::Base, QColor::fromRgb(255,0,125));
+    defaultPalette.setColor(QPalette::Base, QColor::fromRgb(255,255,255));
 
     bool okX, okY;
     double x = op1.toDouble(&okX);
@@ -102,6 +105,8 @@ void MainWindow::on_countButton_clicked()
 
     if(okX && okY)
     {
+        ui->firstInput->setPalette(defaultPalette);
+        ui->secondInput->setPalette(defaultPalette);
         if(ui->plusButton->isChecked())
         {
             double res = x + y;
@@ -158,49 +163,63 @@ void MainWindow::on_countButton_clicked()
         ui->outputLine->setText("ERROR! WATCH ABOVE");
         ui->firstInput->setText("NOT A NUMBER INPUT!");
         ui->secondInput->setText("NOT A NUMBER INPUT!");
+        ui->firstInput->setPalette(errorPalette);
+        ui->secondInput->setPalette(errorPalette);
     }
     if(!okX)
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE");
         ui->firstInput->setText("NOT A NUMBER INPUT!");
+        ui->firstInput->setPalette(errorPalette);
     }
     if(!okY)
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE");
         ui->secondInput->setText("NOT A NUMBER INPUT!");
+        ui->secondInput->setPalette(errorPalette);
     }
     if(ui->firstInput->text() == "" && ui->secondInput->text() == "")
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE");
         ui->firstInput->setText("EMPTY INPUT!");
         ui->secondInput->setText("EMPTY INPUT!");
+        ui->firstInput->setPalette(errorPalette);
+        ui->secondInput->setPalette(errorPalette);
     }
     if(ui->firstInput->text() == "")
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE");
         ui->firstInput->setText("EMPTY INPUT!");
+        ui->firstInput->setPalette(errorPalette);
     }
     if(ui->secondInput->text() == "")
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE");
         ui->firstInput->setText("EMPTY INPUT!");
+        ui->firstInput->setPalette(errorPalette);
     }
     if(ui->divideButton->isChecked() && ui->secondInput->text() == "0")
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE!");
         ui->secondInput->setText("DIVISION BY NULL!");
+        ui->secondInput->setPalette(errorPalette);
     }
     if(ui->expButton->isChecked() && ui->firstInput->text() == "0" && ui->secondInput->text() == "0")
     {
         ui->outputLine->setText("ERROR! WATCH ABOVE!");
         ui->firstInput->setText("UNCERTAINTY 0^0");
         ui->secondInput->setText("UNCERTAINTY 0^0");
+        ui->firstInput->setPalette(errorPalette);
+        ui->secondInput->setPalette(errorPalette);
     }
 }
 
 void MainWindow::on_pushButton_clicked()
 {
+    QPalette defaultPalette = (QPalette::Base, QColor::fromRgb(255,255,255));
     ui->firstInput->clear();
     ui->secondInput->clear();
     ui->outputLine->clear();
+    ui->firstInput->setPalette(defaultPalette);
+    ui->secondInput->setPalette(defaultPalette);
 }
