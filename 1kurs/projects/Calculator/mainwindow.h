@@ -26,7 +26,15 @@ private slots:
 
     void on_countButton_clicked();
 
-    void on_clearButton_clicked();
+    void on_expButton_toggled(bool checked);
+
+    void on_logButton_toggled(bool checked);
+
+    void on_sinButton_toggled(bool checked);
+
+    void on_cosButton_toggled(bool checked);
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

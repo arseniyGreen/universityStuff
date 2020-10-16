@@ -35,16 +35,18 @@ public:
     QLineEdit *outputLine;
     QLabel *secondLabel;
     QLabel *firstLabel;
+    QHBoxLayout *horizontalLayout_3;
+    QPushButton *countButton;
+    QPushButton *pushButton;
+    QLabel *outLabel;
     QGroupBox *operationsBox;
     QGridLayout *gridLayout_2;
     QRadioButton *plusButton;
+    QRadioButton *expButton;
     QRadioButton *multiplyButton;
-    QRadioButton *divideButton;
+    QRadioButton *logButton;
     QRadioButton *minusButton;
-    QLabel *outLabel;
-    QHBoxLayout *horizontalLayout_3;
-    QPushButton *countButton;
-    QPushButton *clearButton;
+    QRadioButton *divideButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -52,7 +54,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(309, 385);
+        MainWindow->resize(371, 413);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -83,6 +85,27 @@ public:
 
         gridLayout->addWidget(firstLabel, 0, 1, 1, 1, Qt::AlignHCenter);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        countButton = new QPushButton(centralwidget);
+        countButton->setObjectName(QString::fromUtf8("countButton"));
+        countButton->setMinimumSize(QSize(205, 0));
+
+        horizontalLayout_3->addWidget(countButton);
+
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout_3->addWidget(pushButton);
+
+
+        gridLayout->addLayout(horizontalLayout_3, 5, 1, 1, 1);
+
+        outLabel = new QLabel(centralwidget);
+        outLabel->setObjectName(QString::fromUtf8("outLabel"));
+
+        gridLayout->addWidget(outLabel, 7, 1, 1, 1, Qt::AlignHCenter);
+
         operationsBox = new QGroupBox(centralwidget);
         operationsBox->setObjectName(QString::fromUtf8("operationsBox"));
         gridLayout_2 = new QGridLayout(operationsBox);
@@ -93,49 +116,38 @@ public:
 
         gridLayout_2->addWidget(plusButton, 0, 0, 1, 1);
 
+        expButton = new QRadioButton(operationsBox);
+        expButton->setObjectName(QString::fromUtf8("expButton"));
+
+        gridLayout_2->addWidget(expButton, 0, 2, 1, 1);
+
         multiplyButton = new QRadioButton(operationsBox);
         multiplyButton->setObjectName(QString::fromUtf8("multiplyButton"));
 
         gridLayout_2->addWidget(multiplyButton, 1, 0, 1, 1);
 
-        divideButton = new QRadioButton(operationsBox);
-        divideButton->setObjectName(QString::fromUtf8("divideButton"));
+        logButton = new QRadioButton(operationsBox);
+        logButton->setObjectName(QString::fromUtf8("logButton"));
 
-        gridLayout_2->addWidget(divideButton, 1, 1, 1, 1);
+        gridLayout_2->addWidget(logButton, 1, 2, 1, 1);
 
         minusButton = new QRadioButton(operationsBox);
         minusButton->setObjectName(QString::fromUtf8("minusButton"));
 
         gridLayout_2->addWidget(minusButton, 0, 1, 1, 1);
 
+        divideButton = new QRadioButton(operationsBox);
+        divideButton->setObjectName(QString::fromUtf8("divideButton"));
+
+        gridLayout_2->addWidget(divideButton, 1, 1, 1, 1);
+
 
         gridLayout->addWidget(operationsBox, 4, 1, 1, 1);
-
-        outLabel = new QLabel(centralwidget);
-        outLabel->setObjectName(QString::fromUtf8("outLabel"));
-
-        gridLayout->addWidget(outLabel, 7, 1, 1, 1, Qt::AlignHCenter);
-
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        countButton = new QPushButton(centralwidget);
-        countButton->setObjectName(QString::fromUtf8("countButton"));
-        countButton->setMinimumSize(QSize(205, 0));
-
-        horizontalLayout_3->addWidget(countButton);
-
-        clearButton = new QPushButton(centralwidget);
-        clearButton->setObjectName(QString::fromUtf8("clearButton"));
-
-        horizontalLayout_3->addWidget(clearButton);
-
-
-        gridLayout->addLayout(horizontalLayout_3, 5, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 309, 30));
+        menubar->setGeometry(QRect(0, 0, 371, 30));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -151,14 +163,16 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Calculator", nullptr));
         secondLabel->setText(QCoreApplication::translate("MainWindow", "Second Summand", nullptr));
         firstLabel->setText(QCoreApplication::translate("MainWindow", "First Summand", nullptr));
+        countButton->setText(QCoreApplication::translate("MainWindow", "=", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
+        outLabel->setText(QCoreApplication::translate("MainWindow", "Sum", nullptr));
         operationsBox->setTitle(QCoreApplication::translate("MainWindow", "Operands", nullptr));
         plusButton->setText(QCoreApplication::translate("MainWindow", "+", nullptr));
+        expButton->setText(QCoreApplication::translate("MainWindow", "Exponentiation", nullptr));
         multiplyButton->setText(QCoreApplication::translate("MainWindow", "*", nullptr));
-        divideButton->setText(QCoreApplication::translate("MainWindow", "/", nullptr));
+        logButton->setText(QCoreApplication::translate("MainWindow", "Log", nullptr));
         minusButton->setText(QCoreApplication::translate("MainWindow", "-", nullptr));
-        outLabel->setText(QCoreApplication::translate("MainWindow", "Sum", nullptr));
-        countButton->setText(QCoreApplication::translate("MainWindow", "=", nullptr));
-        clearButton->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
+        divideButton->setText(QCoreApplication::translate("MainWindow", "/", nullptr));
     } // retranslateUi
 
 };
