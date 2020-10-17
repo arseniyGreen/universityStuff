@@ -214,7 +214,9 @@ void MainWindow::on_countButton_clicked()
     }
 }
 
-void MainWindow::on_pushButton_clicked()
+
+
+void MainWindow::on_clearButton_clicked()
 {
     QPalette defaultPalette = (QPalette::Base, QColor::fromRgb(255,255,255));
     ui->firstInput->clear();

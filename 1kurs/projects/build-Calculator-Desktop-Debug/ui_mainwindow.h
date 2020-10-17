@@ -37,7 +37,7 @@ public:
     QLabel *firstLabel;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *countButton;
-    QPushButton *pushButton;
+    QPushButton *clearButton;
     QLabel *outLabel;
     QGroupBox *operationsBox;
     QGridLayout *gridLayout_2;
@@ -93,10 +93,10 @@ public:
 
         horizontalLayout_3->addWidget(countButton);
 
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        clearButton = new QPushButton(centralwidget);
+        clearButton->setObjectName(QString::fromUtf8("clearButton"));
 
-        horizontalLayout_3->addWidget(pushButton);
+        horizontalLayout_3->addWidget(clearButton);
 
 
         gridLayout->addLayout(horizontalLayout_3, 5, 1, 1, 1);
@@ -161,10 +161,13 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Calculator", nullptr));
+#if QT_CONFIG(whatsthis)
+        firstInput->setWhatsThis(QCoreApplication::translate("MainWindow", "<html><head/><body><p><br/></p></body></html>", nullptr));
+#endif // QT_CONFIG(whatsthis)
         secondLabel->setText(QCoreApplication::translate("MainWindow", "Second Summand", nullptr));
         firstLabel->setText(QCoreApplication::translate("MainWindow", "First Summand", nullptr));
         countButton->setText(QCoreApplication::translate("MainWindow", "=", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
+        clearButton->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
         outLabel->setText(QCoreApplication::translate("MainWindow", "Sum", nullptr));
         operationsBox->setTitle(QCoreApplication::translate("MainWindow", "Operands", nullptr));
         plusButton->setText(QCoreApplication::translate("MainWindow", "+", nullptr));

@@ -19,7 +19,11 @@
      <widget class="QLineEdit" name="secondInput"/>
     </item>
     <item row="1" column="1">
-     <widget class="QLineEdit" name="firstInput"/>
+     <widget class="QLineEdit" name="firstInput">
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
     </item>
     <item row="8" column="1">
      <widget class="QLineEdit" name="outputLine">
@@ -58,7 +62,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="clearButton">
         <property name="text">
          <string>Clear</string>
         </property>
