@@ -27,13 +27,13 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QComboBox *comboBox_3;
-    QLineEdit *lineEdit;
-    QLabel *label;
-    QLabel *label_3;
-    QComboBox *comboBox_2;
-    QLabel *label_2;
-    QComboBox *comboBox;
+    QComboBox *secondOperand;
+    QLineEdit *outputLine;
+    QLabel *firstLabel;
+    QLabel *secondLabel;
+    QComboBox *operationBox;
+    QLabel *operationLabel;
+    QComboBox *firstOperand;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -46,48 +46,60 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        comboBox_3 = new QComboBox(centralwidget);
-        comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
+        secondOperand = new QComboBox(centralwidget);
+        secondOperand->addItem(QString());
+        secondOperand->addItem(QString());
+        secondOperand->setObjectName(QString::fromUtf8("secondOperand"));
 
-        gridLayout->addWidget(comboBox_3, 1, 2, 1, 1);
+        gridLayout->addWidget(secondOperand, 1, 2, 1, 1);
 
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        outputLine = new QLineEdit(centralwidget);
+        outputLine->setObjectName(QString::fromUtf8("outputLine"));
+        outputLine->setAlignment(Qt::AlignCenter);
+        outputLine->setReadOnly(true);
 
-        gridLayout->addWidget(lineEdit, 2, 0, 1, 3);
+        gridLayout->addWidget(outputLine, 2, 0, 1, 3);
 
-        label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
+        firstLabel = new QLabel(centralwidget);
+        firstLabel->setObjectName(QString::fromUtf8("firstLabel"));
         QFont font;
         font.setPointSize(24);
-        label->setFont(font);
-        label->setAlignment(Qt::AlignCenter);
+        firstLabel->setFont(font);
+        firstLabel->setAlignment(Qt::AlignCenter);
 
-        gridLayout->addWidget(label, 0, 0, 1, 1);
+        gridLayout->addWidget(firstLabel, 0, 0, 1, 1);
 
-        label_3 = new QLabel(centralwidget);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setFont(font);
-        label_3->setAlignment(Qt::AlignCenter);
+        secondLabel = new QLabel(centralwidget);
+        secondLabel->setObjectName(QString::fromUtf8("secondLabel"));
+        secondLabel->setFont(font);
+        secondLabel->setAlignment(Qt::AlignCenter);
 
-        gridLayout->addWidget(label_3, 0, 2, 1, 1);
+        gridLayout->addWidget(secondLabel, 0, 2, 1, 1);
 
-        comboBox_2 = new QComboBox(centralwidget);
-        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
+        operationBox = new QComboBox(centralwidget);
+        operationBox->addItem(QString());
+        operationBox->addItem(QString());
+        operationBox->addItem(QString());
+        operationBox->addItem(QString());
+        operationBox->addItem(QString());
+        operationBox->addItem(QString());
+        operationBox->setObjectName(QString::fromUtf8("operationBox"));
 
-        gridLayout->addWidget(comboBox_2, 1, 1, 1, 1);
+        gridLayout->addWidget(operationBox, 1, 1, 1, 1);
 
-        label_2 = new QLabel(centralwidget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setFont(font);
-        label_2->setAlignment(Qt::AlignCenter);
+        operationLabel = new QLabel(centralwidget);
+        operationLabel->setObjectName(QString::fromUtf8("operationLabel"));
+        operationLabel->setFont(font);
+        operationLabel->setAlignment(Qt::AlignCenter);
 
-        gridLayout->addWidget(label_2, 0, 1, 1, 1);
+        gridLayout->addWidget(operationLabel, 0, 1, 1, 1);
 
-        comboBox = new QComboBox(centralwidget);
-        comboBox->setObjectName(QString::fromUtf8("comboBox"));
+        firstOperand = new QComboBox(centralwidget);
+        firstOperand->addItem(QString());
+        firstOperand->addItem(QString());
+        firstOperand->setObjectName(QString::fromUtf8("firstOperand"));
 
-        gridLayout->addWidget(comboBox, 1, 0, 1, 1);
+        gridLayout->addWidget(firstOperand, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -106,9 +118,22 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "X", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "Y", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "Operation", nullptr));
+        secondOperand->setItemText(0, QCoreApplication::translate("MainWindow", "0", nullptr));
+        secondOperand->setItemText(1, QCoreApplication::translate("MainWindow", "1", nullptr));
+
+        firstLabel->setText(QCoreApplication::translate("MainWindow", "X", nullptr));
+        secondLabel->setText(QCoreApplication::translate("MainWindow", "Y", nullptr));
+        operationBox->setItemText(0, QCoreApplication::translate("MainWindow", "AND", nullptr));
+        operationBox->setItemText(1, QCoreApplication::translate("MainWindow", "OR", nullptr));
+        operationBox->setItemText(2, QCoreApplication::translate("MainWindow", "INVERSION", nullptr));
+        operationBox->setItemText(3, QCoreApplication::translate("MainWindow", "IMPLICATION", nullptr));
+        operationBox->setItemText(4, QCoreApplication::translate("MainWindow", "EQUIVALENCE", nullptr));
+        operationBox->setItemText(5, QCoreApplication::translate("MainWindow", "EXCLUDING OR", nullptr));
+
+        operationLabel->setText(QCoreApplication::translate("MainWindow", "Operation", nullptr));
+        firstOperand->setItemText(0, QCoreApplication::translate("MainWindow", "0", nullptr));
+        firstOperand->setItemText(1, QCoreApplication::translate("MainWindow", "1", nullptr));
+
     } // retranslateUi
 
 };

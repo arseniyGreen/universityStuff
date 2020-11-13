@@ -15,6 +15,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void count();
+
+    void on_firstOperand_currentIndexChanged(int index);
+
+    void on_operationBox_currentIndexChanged(int index);
+
+    void on_secondOperand_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
 };
