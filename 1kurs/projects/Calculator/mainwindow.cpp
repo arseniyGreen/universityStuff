@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QtGlobal>
 #include <cmath>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -156,6 +157,12 @@ void MainWindow::on_countButton_clicked()
             ui->outputLine->setText(resText);
             }
         }
+        if(ui->divideButton->isChecked())
+        {
+            double res = x / y;
+            QString resText = QString::number(res);
+            ui->outputLine->setText(resText);
+        }
     }
     //errors trace
     if(!okX && !okY) //both are incorrect
@@ -209,6 +216,15 @@ void MainWindow::on_countButton_clicked()
         ui->outputLine->setText("ERROR! WATCH ABOVE!");
         ui->firstInput->setText("UNCERTAINTY 0^0");
         ui->secondInput->setText("UNCERTAINTY 0^0");
+        ui->firstInput->setPalette(errorPalette);
+        ui->secondInput->setPalette(errorPalette);
+    }
+    QString infTemp = ui->outputLine->text();
+    if(infTemp == "inf")
+    {
+        ui->outputLine->setText("ERROR! WATCH ABOVE!");
+        ui->firstInput->setText("NUMBER IS OUT OF RANGE");
+        ui->secondInput->setText("NUMBER IS OUT OF RANGE");
         ui->firstInput->setPalette(errorPalette);
         ui->secondInput->setPalette(errorPalette);
     }
