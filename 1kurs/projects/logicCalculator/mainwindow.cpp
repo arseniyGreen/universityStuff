@@ -6,12 +6,27 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QPalette falsePalette;
+    falsePalette.setColor(QPalette::Base, QColor::fromRgb(255,0,125));
+    ui->outputLine->setPalette(falsePalette);
+    ui->outputLine->setText("0");
 }
 
 MainWindow::~MainWindow()
 {
 
     delete ui;
+}
+void MainWindow::removeX() //remove first comboBox items for inversion operation
+{
+    ui->firstOperand->setItemText(0, " ");
+    ui->firstOperand->setItemText(1, " ");
+}
+
+void MainWindow::setX() //set them back for others
+{
+    ui->firstOperand->setItemText(0, "0");
+    ui->firstOperand->setItemText(1, "1");
 }
 
 void MainWindow::count()
@@ -35,26 +50,32 @@ void MainWindow::count()
     //Count section
     if(opIndex == 0) //AND statement count
     {
+        setX();
         resault = x && y;
     }
     else if(opIndex == 1) //OR statement count
     {
+        setX();
         resault = x || y;
     }
     else if(opIndex == 2)//INVERSION statement count
     {
-        resault = !x;
+        removeX();
+        resault = !y;
     }
     else if(opIndex == 3)//IMPLICATION statement count
     {
+        setX();
         resault = !x + y;
     }
     else if(opIndex == 4)//EQUIVALENCE statement count
     {
+        setX();
         resault = x == y;
     }
     else if(opIndex == 5)//EXCLUDING OR statement count
     {
+        setX();
         resault = x ^ y;
     }
 

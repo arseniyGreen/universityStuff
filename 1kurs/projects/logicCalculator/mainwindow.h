@@ -18,6 +18,10 @@ public:
 private slots:
     void count();
 
+    void removeX();
+
+    void setX();
+
     void on_firstOperand_currentIndexChanged(int index);
 
     void on_operationBox_currentIndexChanged(int index);
