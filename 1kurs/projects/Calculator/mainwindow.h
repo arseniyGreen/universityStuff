@@ -32,6 +32,8 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void baseChange(int baseNum, QString a, QString b);
+
 private:
     Ui::MainWindow *ui;
 };
