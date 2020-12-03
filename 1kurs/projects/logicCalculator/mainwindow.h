@@ -22,6 +22,10 @@ private slots:
 
     void setX();
 
+    bool calculate(bool firstValue, bool secondValue, int operIndex);
+
+    void calculateResult(bool result);
+
     void on_firstOperand_currentIndexChanged(int index);
 
     void on_operationBox_currentIndexChanged(int index);
