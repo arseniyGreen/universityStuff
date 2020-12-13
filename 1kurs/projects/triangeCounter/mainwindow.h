@@ -20,6 +20,8 @@ private slots:
 
     bool errorsTrace(bool ax, bool ay, bool bx, bool by, bool cx, bool cy);
 
+    void on_clearButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

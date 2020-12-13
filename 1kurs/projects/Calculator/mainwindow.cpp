@@ -91,12 +91,51 @@ double logCount(double a, double b)
     return log(b)/log(a);
 }
 
-void MainWindow::baseChange(int baseNum, QString a, QString b)
-{
-    a = ui->firstInput->text();
-    b = ui->secondInput->text();
-    int x, y;
+// Update here. Made this function for checking base in both inputs
+// Also added separate line for base errors trace in UI
 
+void MainWindow::BaseChecks()
+{
+    int Base = ui->numberingBaseInput->text().toInt();
+
+    QString op1 = ui->firstInput->text();
+    QString op2 = ui->secondInput->text();
+    QPalette errorPalette;
+    QPalette defaultPalette;
+    errorPalette.setColor(QPalette::Base, QColor::fromRgb(255,0,125));
+    defaultPalette.setColor(QPalette::Base, QColor::fromRgb(255,255,255));
+
+
+     bool okX, okY;
+
+    int x = op1.toInt(&okX, Base);
+    int y = op2.toInt(&okY, Base);
+
+    if(okX && okY)
+    {
+        ui->baseError->setText("All ok!");
+        ui->firstInput->setPalette(defaultPalette);
+        ui->secondInput->setPalette(defaultPalette);
+    }
+    else if(!okX && !okY)
+    {
+        ui->baseError->setText("BASE ERROR AT BOTH INPUTS!");
+        ui->outputLine->setText("ERROR! WATCH ABOVE!");
+        ui->firstInput->setPalette(errorPalette);
+        ui->secondInput->setPalette(errorPalette);
+    }
+    else if(!okX)
+    {
+        ui->baseError->setText("BASE ERROR AT FIRST INPUT");
+        ui->outputLine->setText("ERROR! WATCH ABOVE!");
+        ui->firstInput->setPalette(errorPalette);
+    }
+    else
+    {
+        ui->outputLine->setText("BASE ERROR AT SECOND INPUT");
+        ui->outputLine->setText("ERROR! WATCH ABOVE!");
+        ui->secondInput->setPalette(errorPalette);
+    }
 }
 
 
@@ -113,8 +152,9 @@ void MainWindow::on_countButton_clicked()
     bool okX, okY, okS;
     double x = op1.toDouble(&okX);
     double y = op2.toDouble(&okY);
-    double res;
+    double res = -1;
     int base; //Numbering base varaible
+    int resBase;
 
     if (baseString.isEmpty()) base = 10;
         else base = baseString.toInt(&okS);
@@ -129,11 +169,10 @@ void MainWindow::on_countButton_clicked()
         {
             if(base != 10)
             {
-                int res;
                 x = op1.toInt();
                 y = op2.toInt();
-                res = x + y;
-                QString resText = QString::number(res, base);
+                resBase = x + y;
+                QString resText = QString::number(resBase, base);
                 ui->outputLine->setText(resText);
             }
             else
@@ -147,11 +186,10 @@ void MainWindow::on_countButton_clicked()
         {
             if(base != 10)
             {
-                int res;
                 x = op1.toInt();
                 y = op2.toInt();
-                res = x - y;
-                QString resText = QString::number(res, base);
+                resBase = x - y;
+                QString resText = QString::number(resBase, base);
                 ui->outputLine->setText(resText);
             }
             else
@@ -166,11 +204,10 @@ void MainWindow::on_countButton_clicked()
         {
             if(base != 10)
             {
-                int res;
                 x = op1.toInt();
                 y = op2.toInt();
-                res = x * y;
-                QString resText = QString::number(res, base);
+                resBase = x * y;
+                QString resText = QString::number(resBase, base);
                 ui->outputLine->setText(resText);
             }
             else
@@ -184,11 +221,10 @@ void MainWindow::on_countButton_clicked()
         {
             if(base != 10)
             {
-                int res;
                 x = op1.toInt();
                 y = op2.toInt();
-                res = pow(x,y);
-                QString resText = QString::number(res, base);
+                resBase = pow(x,y);
+                QString resText = QString::number(resBase, base);
                 ui->outputLine->setText(resText);
             }
             else
@@ -222,11 +258,10 @@ void MainWindow::on_countButton_clicked()
             {
                 if(base != 10)
                 {
-                    int res;
                     x = op1.toInt();
                     y = op2.toInt();
-                    res = logCount(y, x);
-                    QString resText = QString::number(res, base);
+                    resBase = logCount(y, x);
+                    QString resText = QString::number(resBase, base);
                     ui->outputLine->setText(resText);
                 }
                 else
@@ -249,11 +284,10 @@ void MainWindow::on_countButton_clicked()
                 }
                 else
                 {
-                    int res;
                     x = op1.toInt();
                     y = op2.toInt();
-                    res = x / y;
-                    QString resText = QString::number(res, base);
+                    resBase = x / y;
+                    QString resText = QString::number(resBase, base);
                     ui->outputLine->setText(resText);
                 }
             }
@@ -364,6 +398,7 @@ void MainWindow::on_countButton_clicked()
         ui->firstInput->setPalette(errorPalette);
         ui->secondInput->setPalette(errorPalette);
     }
+    BaseChecks(); //Invoking new function here
 }
 
 
