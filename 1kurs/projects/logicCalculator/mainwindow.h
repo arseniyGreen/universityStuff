@@ -16,7 +16,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void count();
 
     void removeX();
 

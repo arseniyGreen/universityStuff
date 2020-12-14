@@ -42,6 +42,8 @@ bool MainWindow::errorsTrace(bool ax, bool ay, bool bx, bool by, bool cx, bool c
         ui->byInput->setPalette(defaultPalette);
         ui->cxInput->setPalette(defaultPalette);
         ui->cyInput->setPalette(defaultPalette);
+        ui->perimOut->setPalette(defaultPalette);
+        ui->squareOut->setPalette(defaultPalette);
 
         ui->errorOutput->clear();
         res = true;
@@ -83,6 +85,13 @@ bool MainWindow::errorsTrace(bool ax, bool ay, bool bx, bool by, bool cx, bool c
         ui->perimOut->setPalette(defaultPalette);
         res = false;
     }
+    if(!okAx) ui->axInput->setPalette(defaultPalette);
+    if(!okAy) ui->ayInput->setPalette(defaultPalette);
+    if(!okBx) ui->bxInput->setPalette(defaultPalette);
+    if(!okBy) ui->byInput->setPalette(defaultPalette);
+    if(!okCx) ui->cxInput->setPalette(defaultPalette);
+    if(!okCy) ui->cyInput->setPalette(defaultPalette);
+
     return res;
 }
 
@@ -128,6 +137,7 @@ void MainWindow::on_countButton_clicked()
     if(qIsInf(square)) ui->errorOutput->setText("TRIANGLE IS INFITE!"); //infinity check
     else if(qIsNaN(square)) ui->errorOutput->setText("SQUARE IS NOT A NUMBER!"); //not a number check
     else if(ok && square <= 1e-17) ui->errorOutput->setText("SQUARE IS TOO SMALL!"); //small number check
+    else if(square < 0) ui->errorOutput->setText("FIX HIGHLIGHTED COORDS!");
     else //no errors
     {
         QString squareOut = QString::number(square);
@@ -139,7 +149,7 @@ void MainWindow::on_countButton_clicked()
     if(qIsInf(perimeter)) ui->errorOutput->setText("TRIANGLE IS INFITE!"); //infinity check
     else if(qIsNaN(perimeter)) ui->errorOutput->setText("PERIMETER IS NOT A NUMBER!"); //not a number check
     else if(ok && perimeter <= 1e-17) ui->errorOutput->setText("PERIMETER IS TOO SMALL!"); //small number check
-    else if(perimeter < 0) ui->errorOutput->setText("FIX HILGIHTED"); //negative check
+    else if(perimeter < 0) ui->errorOutput->setText("FIX HIGHLIGHTED COORDS!");
     else if(qIsNull(perimeter)) ui->errorOutput->setText("PERIMETER EQUALS NULL!"); //null check
     else //no errors
     {
