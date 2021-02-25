@@ -127,6 +127,7 @@ public:
     {
         std::cout << numerator << "/" << denominator << std::endl;
     }
+    Fraction(){numerator = 1; denominator = 1;}
 
 };
 
