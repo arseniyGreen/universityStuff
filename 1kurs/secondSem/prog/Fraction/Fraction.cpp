@@ -21,11 +21,6 @@ private:
         return x;
     }
 
-    int findNok(int x, int y) 
-    {
-        return x * y / findNod(x, y);
-    }
-
     void nullCheck(int denum)
     {
         if (denum == 0) std::cerr << "Denominator can't be equal NULL!" << std::endl;
@@ -36,8 +31,11 @@ private:
         numerator /= findNod(numerator, denominator);
         denominator /= findNod(numerator, denominator);
     }
-
-
+    bool isPrime(int num, int denum)
+    {
+        if(findNod(num, denum) == 1) return true;
+        else return false;
+    }
 
 public:
     Fraction(int num, int denum) 
@@ -45,22 +43,56 @@ public:
         this->numerator = num;
         this->denominator = denum;
     }
-    Fraction() : Fraction(1, 1) {}
+    Fraction() : Fraction(0, 1) {}
 
     Fraction(int num) : Fraction(num, 1) {}
 
     ~Fraction() {}
-    friend Fraction operator+(Fraction F1, Fraction F2);
-   
-    friend Fraction operator-(Fraction F1, Fraction F2);
 
-    friend Fraction operator*(Fraction F1, Fraction F2);
     friend Fraction operator*(Fraction F, int n);
 
-    friend Fraction operator/(Fraction F1, Fraction F2);
-    Fraction operator+(Fraction f) {
+    Fraction operator+(Fraction F)
+    {
         Fraction res;
-        res.numerator = 
+        res.numerator = numerator * F.denominator + denominator * F.numerator;
+        res.denominator = denominator * F.denominator;
+
+        nullCheck(res.denominator);
+        //res.shorten();
+        return res;
+    }
+
+    Fraction operator-(Fraction F)
+    {
+        Fraction res;
+        res.numerator = numerator * F.denominator - denominator * F.numerator;
+        res.denominator = denominator * F.denominator;
+
+        nullCheck(res.denominator);
+        //res.shorten();
+        return res;
+    }
+
+    Fraction operator*(Fraction F)
+    {
+        Fraction res;
+        res.numerator = numerator * F.numerator;
+        res.denominator = denominator * F.denominator;
+
+        nullCheck(res.denominator);
+        //res.shorten();
+        return res;
+    }
+
+    Fraction operator/(Fraction F)
+    {
+        Fraction res;
+        res.numerator = numerator * F.denominator;
+        res.denominator = denominator * F.numerator;
+
+        nullCheck(res.denominator);
+        //res.shorten();
+        return res;
     }
 
     void print() 
@@ -79,6 +111,15 @@ public:
 
 };
 
+Fraction operator*(Fraction F, int num)
+{
+    Fraction res;
+    res.numerator = F.numerator * num;
+
+    res.shorten();
+    return res;
+}
+
 Fraction* arrayMult(Fraction* farr, size_t size, int num)
 {
     for (int i = 0; i < size; i++)
@@ -96,7 +137,7 @@ int main()
    f1.setNum(8);
    f1.setDenum(16);
    f2.setNum(9);
-   f2.setDenum(81);
+   f2.setDenum(16);
 
     sum = f1 + f2;
     dif = f1 - f2;
