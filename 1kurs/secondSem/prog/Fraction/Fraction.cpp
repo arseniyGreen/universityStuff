@@ -4,6 +4,8 @@
 class Fraction 
 {
 private:
+    int numerator, denominator;
+
     int findNod(int x, int y) 
     {
         while (x != y) 
@@ -29,117 +31,72 @@ private:
         if (denum == 0) std::cerr << "Denominator can't be equal NULL!" << std::endl;
     }
 
+    void shorten() 
+    {
+        numerator /= findNod(numerator, denominator);
+        denominator /= findNod(numerator, denominator);
+    }
+
+
+
 public:
-    int numerator, denominator;
-
-    Fraction operator+ (Fraction& F)
+    Fraction(int num, int denum) 
     {
-        nullCheck(this->denominator);
-        nullCheck(F.denominator);
-
-        Fraction result;
-        if (this->denominator == F.denominator) //denominator check
-        {
-            result.numerator = this->numerator + F.numerator;
-            result.denominator = this->denominator;
-        }
-        else 
-        {
-            int nok = findNok(this->denominator, F.denominator); //find nok for denums
-            int mult1, mult2;
-            mult1 = nok / this->denominator;
-            mult2 = nok / F.denominator;
-
-            result.numerator = this->numerator * mult1 + F.numerator * mult2;
-            result.denominator = nok;
-        }
-        int resNod = findNod(result.numerator, result.denominator);
-    
-        result.numerator /= resNod;
-        result.denominator /= resNod;
-        return result;
-
+        this->numerator = num;
+        this->denominator = denum;
     }
+    Fraction() : Fraction(1, 1) {}
 
-    Fraction operator- (Fraction& F)
-    {
-        nullCheck(this->denominator);
-        nullCheck(F.denominator);
+    Fraction(int num) : Fraction(num, 1) {}
 
-        Fraction result;
-        if (this->denominator == F.denominator) //denominator check
-        {
-            result.numerator = this->numerator - F.numerator;
-            result.denominator = this->denominator;
-        }
-        else
-        {
-            int nok = findNok(this->denominator, F.denominator); //find nok for denums
-            int mult1, mult2;
-            mult1 = nok / this->denominator;
-            mult2 = nok / F.denominator;
+    ~Fraction() {}
+    friend Fraction operator+(Fraction F1, Fraction F2);
+   
+    friend Fraction operator-(Fraction F1, Fraction F2);
 
-            result.numerator = this->numerator * mult1 - F.numerator * mult2;
-            result.denominator = nok;
-        }
-        int resNod = findNod(result.numerator, result.denominator);
+    friend Fraction operator*(Fraction F1, Fraction F2);
+    friend Fraction operator*(Fraction F, int n);
 
-        result.numerator /= resNod;
-        result.denominator /= resNod;
-        return result;
-    }
-
-    Fraction operator* (Fraction& F) 
-    {
-        nullCheck(this->denominator);
-        nullCheck(F.denominator);
-
-        Fraction result;
-        result.numerator = this->numerator * F.numerator;
-        result.denominator = this->denominator * F.denominator;
-
-        int resNod = findNod(result.numerator, result.denominator);
-
-        result.numerator /= resNod;
-        result.denominator /= resNod;
-        return result;
-
-    }
-
-    Fraction operator/ (Fraction& F)
-    {
-        nullCheck(this->denominator);
-        nullCheck(F.denominator);
-
-        Fraction result;
-        result.numerator = this->numerator * F.denominator;
-        result.denominator = this->denominator * F.numerator;
-
-        int resNod = findNod(result.numerator, result.denominator);
-  
-        result.numerator /= resNod;
-        result.denominator /= resNod;
-        return result;
-
+    friend Fraction operator/(Fraction F1, Fraction F2);
+    Fraction operator+(Fraction f) {
+        Fraction res;
+        res.numerator = 
     }
 
     void print() 
     {
         std::cout << numerator << "/" << denominator << std::endl;
     }
-    Fraction(){numerator = 1; denominator = 1;}
+
+    void setNum(int n)
+    {
+        numerator = n;
+    }
+    void setDenum(int n)
+    {
+        denominator = n;
+    }
 
 };
+
+Fraction* arrayMult(Fraction* farr, size_t size, int num)
+{
+    for (int i = 0; i < size; i++)
+    {
+        farr[i] = farr[i] * num;
+    }
+    return farr;
+};
+
 
 int main()
 {
    Fraction f1, f2;
    Fraction sum, dif, mult, div;
-   f1.numerator = 8;
-   f1.denominator = 16;
-   f2.numerator = 9;
-   f2.denominator = 81;
-
+   f1.setNum(8);
+   f1.setDenum(16);
+   f2.setNum(9);
+   f2.setDenum(81);
 
     sum = f1 + f2;
     dif = f1 - f2;
@@ -151,4 +108,6 @@ int main()
     std::cout << "Dif : "; dif.print();
     std::cout << "Mult : "; mult.print();
     std::cout << "Div : "; div.print();
+
+    return 0;
 }

@@ -1,2 +1,9 @@
 ﻿  Fraction.cpp
-  Fraction.vcxproj -> C:\Users\Arseniy\source\repos\Fraction\Debug\Fraction.exe
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(56,5): error C2804: binary 'operator *' has too many parameters
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(56,5): error C2333: 'Fraction::operator *': error in function declaration; skipping function body
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(87,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(89,27): error C2676: binary '*': 'Fraction' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(104,14): error C2676: binary '+': 'Fraction' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(105,14): error C2676: binary '-': 'Fraction' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(106,15): error C2676: binary '*': 'Fraction' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\Arseniy\source\repos\Fraction\Fraction.cpp(107,14): error C2676: binary '/': 'Fraction' does not define this operator or a conversion to a type acceptable to the predefined operator

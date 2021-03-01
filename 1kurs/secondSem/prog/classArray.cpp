@@ -3,6 +3,8 @@
 class Fraction 
 {
 private:
+    int numerator, denominator;
+
     int findNod(int x, int y) 
     {
         while (x != y) 
@@ -29,8 +31,7 @@ private:
     }
 
 public:
-    int numerator, denominator;
-
+    
     Fraction operator+ (Fraction& F)
     {
         nullCheck(this->denominator);
@@ -122,21 +123,41 @@ public:
 
     }
 
+    //Friend functions section
+    
+    friend Fraction operator*(Fraction F, int num)
+    {
+        Fraction result;
+        result.numerator = F.numerator * num;
+        result.denominator = F.denominator;
+
+        return result;
+    }
+
     void print() 
     {
         std::cout << numerator << "/" << denominator << std::endl;
     }
-    Fraction(){numerator = 1; denominator = 1;}
-
+    void setNumerator(int num)
+    {
+        numerator = num;
+    }
+    void setDenominator(int num)
+    {
+        denominator = num;
+    }
 };
 
-void arrayCount(Fraction* array[], size_t arraySize, int number)
-{
-    for(size_t i = 0; i < arraySize; i++)
-    {
-        array[i] *= number;
-    }
-}
+
+
+// Fraction arrayCount(Fraction* array[], size_t arraySize, int number)
+// {
+//     for(size_t i = 0; i < arraySize; i++)
+//     {
+//         array[i] *= number;
+//     }
+//     return *array[arraySize];
+// }
 
 int main()
 {
@@ -144,5 +165,14 @@ int main()
     Fraction* array = new Fraction[size];
 
     delete[] array;
+
+    Fraction Frac;
+    Frac.setDenominator(14);
+    Frac.setDenominator(20);
+
+    Frac * 3;
+
+    Frac.print();
+
     return 0;
 }
