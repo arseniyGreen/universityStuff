@@ -177,5 +177,6 @@ int main()
 
     arrayMult(fracArray, 3, 4);
 
+    delete[] fracArray;
     return 0;
 }
