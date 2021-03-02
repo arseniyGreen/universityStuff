@@ -1,0 +1,2 @@
+C:\Users\Arseniy\source\repos\Fraction\x64\Debug\Fraction.exe
+C:\Users\Arseniy\source\repos\Fraction\x64\Debug\Fraction.pdb

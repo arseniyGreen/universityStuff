@@ -1,16 +1,16 @@
 //Arkadskov A.E. KTSO-02-20
 #include <iostream>
 
-class Fraction 
+class Fraction
 {
 private:
     int numerator, denominator;
 
-    int findNod(int x, int y) 
+    int findNod(int x, int y)
     {
-        while (x != y) 
+        while (x != y)
         {
-            if (x > y) 
+            if (x > y)
             {
                 int temp = x;
                 x = y;
@@ -26,17 +26,30 @@ private:
         if (denum == 0) std::cerr << "Denominator can't be equal NULL!" << std::endl;
     }
 
-    void shorten() 
+    void signChange() 
     {
-        if(findNod(numerator, denominator) != 1)        
+        if (numerator < 0) numerator = -numerator;
+        if (denominator < 0) denominator = -denominator;
+    }
+
+    void shorten()
+    {
+        if (findNod(numerator, denominator) != 1)
         {
-            numerator /= findNod(numerator, denominator);
-            denominator /= findNod(numerator, denominator);
-        }        
+            int nod = findNod(numerator, denominator);
+            numerator /= nod;
+            denominator /= nod;
+        }
+    }
+
+    void fractionChange()
+    {
+        signChange();
+        shorten();
     }
 
 public:
-    Fraction(int num, int denum) 
+    Fraction(int num, int denum)
     {
         this->numerator = num;
         this->denominator = denum;
@@ -56,7 +69,8 @@ public:
         res.denominator = denominator * F.denominator;
 
         nullCheck(res.denominator);
-        //res.shorten();
+        res.shorten();
+        res.shorten();
         return res;
     }
 
@@ -67,7 +81,7 @@ public:
         res.denominator = denominator * F.denominator;
 
         nullCheck(res.denominator);
-        //res.shorten();
+        res.fractionChange();
         return res;
     }
 
@@ -78,7 +92,7 @@ public:
         res.denominator = denominator * F.denominator;
 
         nullCheck(res.denominator);
-        //res.shorten();
+        res.fractionChange();
         return res;
     }
 
@@ -89,11 +103,11 @@ public:
         res.denominator = denominator * F.numerator;
 
         nullCheck(res.denominator);
-      //  res.shorten();
+        res.fractionChange();
         return res;
     }
 
-    void print() 
+    void print()
     {
         std::cout << numerator << "/" << denominator << std::endl;
     }
@@ -113,8 +127,9 @@ Fraction operator*(Fraction F, int num)
 {
     Fraction res;
     res.numerator = F.numerator * num;
+    res.denominator = F.denominator;
 
-    //res.shorten();
+    res.fractionChange();
     return res;
 }
 
@@ -123,6 +138,7 @@ Fraction* arrayMult(Fraction* farr, size_t size, int num)
     for (int i = 0; i < size; i++)
     {
         farr[i] = farr[i] * num;
+        farr[i].print();
     }
     return farr;
 };
@@ -130,23 +146,37 @@ Fraction* arrayMult(Fraction* farr, size_t size, int num)
 
 int main()
 {
-   Fraction f1, f2;
-   Fraction sum, dif, mult, div;
-   f1.setNum(8);
-   f1.setDenum(16);
-   f2.setNum(9);
-   f2.setDenum(16);
+    Fraction f1, f2, f3;
+    Fraction sum, dif, mult, div;
+    f1.setNum(8);
+    f1.setDenum(16);
+    f2.setNum(9);
+    f2.setDenum(16);
 
     sum = f1 + f2;
     dif = f1 - f2;
     mult = f1 * f2;
     div = f1 / f2;
 
+    std::cout << '\t' << "First task" << std::endl;
     std::cout << "Results:" << std::endl;
-    std::cout << "Sum : "; sum.print(); 
+    std::cout << "Sum : "; sum.print();
     std::cout << "Dif : "; dif.print();
     std::cout << "Mult : "; mult.print();
     std::cout << "Div : "; div.print();
+
+    //Array task
+    std::cout << "\t" << "Array task" << std::endl;
+
+    f3.setNum(6);
+    f3.setDenum(17);
+
+    Fraction* fracArray = new Fraction[3];
+    fracArray[0] = f1;
+    fracArray[1] = f2;
+    fracArray[2] = f3;
+
+    arrayMult(fracArray, 3, 4);
 
     return 0;
 }
