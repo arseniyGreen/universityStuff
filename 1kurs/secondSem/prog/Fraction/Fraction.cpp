@@ -28,13 +28,11 @@ private:
 
     void shorten() 
     {
-        numerator /= findNod(numerator, denominator);
-        denominator /= findNod(numerator, denominator);
-    }
-    bool isPrime(int num, int denum)
-    {
-        if(findNod(num, denum) == 1) return true;
-        else return false;
+        if(findNod(numerator, denominator) != 1)        
+        {
+            numerator /= findNod(numerator, denominator);
+            denominator /= findNod(numerator, denominator);
+        }        
     }
 
 public:
@@ -91,7 +89,7 @@ public:
         res.denominator = denominator * F.numerator;
 
         nullCheck(res.denominator);
-        //res.shorten();
+      //  res.shorten();
         return res;
     }
 
@@ -116,7 +114,7 @@ Fraction operator*(Fraction F, int num)
     Fraction res;
     res.numerator = F.numerator * num;
 
-    res.shorten();
+    //res.shorten();
     return res;
 }
 
