@@ -69,8 +69,7 @@ public:
         res.denominator = denominator * F.denominator;
 
         nullCheck(res.denominator);
-        res.shorten();
-        res.shorten();
+        res.fractionChange();
         return res;
     }
 
