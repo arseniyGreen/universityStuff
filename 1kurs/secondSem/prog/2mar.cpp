@@ -23,26 +23,89 @@ public:
 
     Complex operator/(const Complex &other) { return Complex((real * other.real + unreal * other.unreal)/(pow(other.real, 2) + pow(other.unreal, 2)), (other.real * unreal - real * other.unreal)/(pow(other.real, 2) + pow(other.unreal, 2))); }
 
-    Complex sum(const Complex *nums, size_t count)
+};
+
+std::ostream& operator <<(std::ostream &out, const Complex &c){
+    double real = c.getReal(), unreal = c.getUnreal();
+
+    if(unreal >= 0) return out << real << " + " << unreal << "i";
+    else return out << real << " - " << -unreal << "i";
+};
+
+Complex arraySum(Complex* cArray, size_t size)
+{
+    Complex result;
+    for(int i = 0; i < size; ++i)
     {
-    Complex result = 0;
-    for(size_t i = 0; i < count; i++)
-        result = result + nums[i];
-    return result;
+        result = result + cArray[i];
     }
+    return result;
 };
 
-
-
-std::ostream& operator <<(std::ostream &os, const Complex &c){
-    return os << c.getReal() << '+' << c.getUnreal() << 'i';
+Complex arrayDif(Complex* cArray, size_t size)
+{
+    Complex result;
+    for(int i = 0; i < size; ++i)
+    {
+        result = result - cArray[i];
+    }
+    return result;
 };
 
+Complex arrayMul(Complex* cArray, size_t size)
+{
+    Complex result;
+    for(int i = 0; i < size; ++i)
+    {
+        result = result * cArray[i];
+    }
+    return result;
+};
+
+Complex arrayDiv(Complex* cArray, size_t size)
+{
+    Complex result;
+    for(int i = 0; i < size; ++i)
+    {
+        result = result / cArray[i];
+    }
+    return result;
+};
 
 int main()
 {   
-    Complex nums[5]; nums[0] = Complex(1,1); nums[1] = Complex(-2,-2); nums[3] = Complex(-3,3); nums[4] = Complex(4,-4);
-    Complex num(1, 2), n1(123), n2, *pn = nums;
-    std::cout << "Sum: " << Complex::sum(nums, sizeof(nums)/sizeof(nums[0])) << std::endl;
-    std::cin.read(NULL, 1);
+    Complex c1(12, 24), c2(-7, 42), c3(37, 25);
+    Complex sum = c1 + c2;
+    Complex dif = c1 - c2;
+    Complex mul = c1 * c2;
+    Complex div = c1 / c2;
+
+    std::cout << "\tResults : " << std::endl;
+    std::cout << "Sum : " << sum << std::endl;
+    std::cout << "Dif : " << dif << std::endl;
+    std::cout << "Mul : " << mul << std::endl;
+    std::cout << "Div : " << div << std::endl;
+
+    //Arrays task
+
+    std::cout << "\tArrays task : " << std::endl;
+    Complex* cArray = new Complex[3];
+    Complex arrRes;
+    cArray[0] = c1;
+    cArray[1] = c2;
+    cArray[2] = c3;
+    
+    arrRes = arraySum(cArray, 3);
+    std::cout << "Sum : " << arrRes << std::endl;
+
+    arrRes = arrayDif(cArray, 3);
+    std::cout << "Dif : " << arrRes << std::endl;
+
+    arrRes = arrayMul(cArray, 3);
+    std::cout << "Mul : " << arrRes << std::endl;
+
+    arrRes = arrayDiv(cArray, 3);
+    std::cout << "Div : " << arrRes << std::endl;
+
     return 0;
+}
