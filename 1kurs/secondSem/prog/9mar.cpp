@@ -47,7 +47,7 @@ public:
 
     void resize(size_t newSize)
     {
-        if(newSize <= d->capacity && d->refcnt == 1) //Only one Array connected to ArrayData
+        if(newSize <= d->capacity && d->refcnt == 1) //only one Array connected to ArrayData
         {
             d->size = newSize;
             return;
