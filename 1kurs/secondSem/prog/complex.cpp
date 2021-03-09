@@ -1,3 +1,4 @@
+//Arkadskov A.E. KTSO-02-20
 #include <iostream>
 #include <cmath>
 
