@@ -107,5 +107,6 @@ int main()
     arrRes = arrayDiv(cArray, 3);
     std::cout << "Div : " << arrRes << std::endl;
 
+    delete[] cArray;
     return 0;
 }
