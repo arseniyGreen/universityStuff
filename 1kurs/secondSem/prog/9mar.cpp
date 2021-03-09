@@ -23,6 +23,7 @@ public:
     } 
     ~Array()
     {
+        d->refcnt -= 1;
         if(--d->refcnt == 0)
             delete d;
     }
