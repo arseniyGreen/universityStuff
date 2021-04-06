@@ -261,7 +261,7 @@
   
  	Matrix<T> transponded() const { 
  		 //Result = dist, *this = src
- 	    Matrix<T> Result(ncols, nrows);
+ 	    Matrix<T> Result(ncols, nrows); 
         for (size_t i = 0; i < ncols; i++)
             for (size_t j = 0; j < nrows; j++)
                 Result[i][j] = (*this)[j][i]; //data[Row(data + (j * ncols), ncols)];
