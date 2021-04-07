@@ -24,10 +24,10 @@ public:
 	{
 		this->vin = vin;
 		this->model = model;
-		owners.insert(owner);
+		addOwner(owner);
 	}
 
-    void addOwner(Person *newOwner) { owners.insert(newOwner); }
+    void addOwner(Person *newOwner);
     void removeOwner(Person *Name) { owners.erase(Name); }
     size_t getOwnersCount() const { return owners.size(); }
 };
@@ -41,7 +41,7 @@ private:
     void actualAddCar(Car &car){ cars.insert(&car); }
     friend class Car;
 public:
-    Person(const std::string &name) { this->name = name; }
+    Person(const std::string name) { this->name = name; }
 
     std::string getName() const { return name; }
 
@@ -49,20 +49,21 @@ public:
     {
         actualAddCar(car);
         car.actualAddOwner(*this);
-        
-
-        /*
-        Invoke actualAddCar(); invoke car.actualAddOwner() 
-         */
     }
     void removeCar(Car &car)
     {
-        /* */
+        car.removeOwner(this);
     }
 
     size_t getCarCount() const { return cars.size(); }
 
 };
+
+void Car::addOwner(Person *newOwner)
+{
+    actualAddOwner(*newOwner);
+    newOwner->actualAddCar(*this);        
+}
 
 int main(int argc, char const *argv[])
 {
