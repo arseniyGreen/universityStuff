@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <set>
+#include <exception>
 
 class Person;
 
@@ -18,13 +19,17 @@ public:
     void setVin(std::string vin_) { vin = vin_; }
     std::string getVin() const { return vin; }
 
-     
-
-    Car(std::string vin, std::string model, Person *owner)
+    Car(std::string vin, std::string model, Person *owner = nullptr)
 	{
+        if(vin.empty())
+            throw std::invalid_argument("VIN is empty");
+        if(model.empty())
+            throw std::invalid_argument("Model name is empty");
+
 		this->vin = vin;
 		this->model = model;
-		addOwner(owner);
+		if(owner != nullptr)
+            addOwner(owner);
 	}
 
     void addOwner(Person *newOwner);
@@ -41,7 +46,12 @@ private:
     void actualAddCar(Car &car){ cars.insert(&car); }
     friend class Car;
 public:
-    Person(const std::string name) { this->name = name; }
+    Person(const std::string &name_) 
+    {
+        if(name_.empty())
+            throw std::invalid_argument("Name is empty")
+        this->name = name_;
+    }
 
     std::string getName() const { return name; }
 
@@ -67,6 +77,11 @@ void Car::addOwner(Person *newOwner)
 
 int main(int argc, char const *argv[])
 {
+    //try
+    //{
+    //    ("123", "Nisan", "Ivan Ivanov");
+    //}
+
     Person* persons[] = 
     {
         new Person("Ivan Ivanov"),
