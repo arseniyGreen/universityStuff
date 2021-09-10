@@ -1,2 +1,0 @@
-C:\Users\Arseniy\source\repos\Integer\Debug\Integer.exe
-C:\Users\Arseniy\source\repos\Integer\Debug\Integer.pdb
