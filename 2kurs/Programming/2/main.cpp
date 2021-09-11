@@ -21,8 +21,7 @@ void push(std::list<T> &L, T element)
 template <class T>
 bool condition(T x)
 {
-    bool ans = (x > 0) ? true : false;
-    return ans;
+    return (x > 0) ? true : false;
 }
 
 template <class T>
