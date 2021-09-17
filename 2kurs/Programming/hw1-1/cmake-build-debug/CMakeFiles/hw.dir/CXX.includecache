@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Arseniy/Documents/GitHub/universityStuff/2kurs/Programming/hw/main.cpp
+iostream
+-
+list
+-
+ctime
+-
+cstdlib
+-
+algorithm
+-
+
