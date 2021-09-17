@@ -1,1 +1,0 @@
-CMakeLists.txt not found in C:\Users\Arseniy\Documents\GitHub\universityStuff\2kurs\Programming\hw Select CMakeLists.txt
