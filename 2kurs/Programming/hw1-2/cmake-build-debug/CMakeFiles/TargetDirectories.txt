@@ -1,0 +1,3 @@
+/home/notahacker/Documents/universityStuff/2kurs/Programming/hw1-2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/notahacker/Documents/universityStuff/2kurs/Programming/hw1-2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/notahacker/Documents/universityStuff/2kurs/Programming/hw1-2/cmake-build-debug/CMakeFiles/hw1_2.dir
