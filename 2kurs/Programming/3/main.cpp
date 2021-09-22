@@ -191,11 +191,6 @@ public:
     ListIterator<T> end() { ListIterator<T> it = LinkedListParent<T>::tail; return it; }
 };
 
-bool condition(int value)
-{
-    return value % 2 == 0;
-}
-
 template <class T>
 class Stack : public IteratedLinkedList<T>
 {
@@ -226,19 +221,24 @@ public:
         //TODO
         return nullptr;
     }
-
-    Stack<T> filter(bool (*func_ptr)(T))
-    {
-        Stack<T> result;
-        ListIterator<T> it = IteratedLinkedList<T>::begin();
-        while(it != IteratedLinkedList<T>::end())
-        {
-            if(func_ptr((*it).getValue())) result.push((*it).getValue());
-            it++;
-        }
-        return result;
-    }
 };
+
+bool condition(int value)
+{
+    return value % 2 == 0;
+}
+
+template<class T>
+void filter(IteratedLinkedList<T>* source, IteratedLinkedList<T>* dest, bool (*func_ptr)(T))
+{
+    ListIterator<T> it = source->begin();
+    while(it != source->end())
+    {
+        if(func_ptr((*it).getValue())) dest->push((*it).getValue());
+        it++;
+    }
+    if(source->Number() != 0 && func_ptr((*it).getValue())) dest->push((*it).getValue());
+}
 
 int main()
 {
@@ -263,8 +263,12 @@ int main()
     }
     cout << *S.iterator << " ";
 
-    Stack<int> S1 = S.filter(condition);
+    Stack<int> S1;
+    filter(&S, &S1, condition);
+
     cout << "\nFilter : " << S1;
+
+    IteratedLinkedList<int>* ptr = &S;
 
     return 0;
 }
