@@ -268,7 +268,5 @@ int main()
 
     cout << "\nFilter : " << S1;
 
-    IteratedLinkedList<int>* ptr = &S;
-
     return 0;
 }

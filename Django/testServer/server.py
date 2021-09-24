@@ -3,24 +3,24 @@ import logging
 import sys
 
 logging.basicConfig(level=logging.INFO)
-port = int(input("Port to bind: "))
-if(port < 1025):
-    logging.error("Port value can't be <= 1024")
-    sys.exit()
-else:
-    ADDRESS = ("", port)  # listen all interfaces, port 1234
+SERVER_ADDRESS = ('0.0.0.0', 8000)
 
-srv = socket.create_server(ADDRESS, family=socket.AF_INET)
-logging.info("Server was created on port " + str(port))
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-srv.listen()
+server.bind(SERVER_ADDRESS)
+logging.info("Port binded")
 
-while(1):
-    (client, clientAddress) = srv.accept()
-    logging.info("Received connection from " + str(clientAddress))
-    data = client.recv(1024)
-    print(data.decode("UTF-8"))
+server.listen()
+connection, clientAddress = server.accept()
+logging.info("Listening on port 8000")
+while 1:
+    data = connection.recv(1024)
+    logging.info("Received '" + str(data.decode("UTF-8")) + "'")
+    if data:
+        logging.info("Sending data back")
+        connection.sendall(data.encode("UTF-8"))
+    else:
+        logging.info("No more data have been received")
+        break
 
-    dataToClient = "Hello client!"
-    srv.send(dataToClient.encode("UTF-8"))
-    sys.exit()
+connection.close()

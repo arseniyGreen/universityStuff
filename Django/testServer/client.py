@@ -2,22 +2,24 @@ import socket
 import logging
 import sys
 
-logging.basicConfig()
+logging.basicConfig(level=logging.INFO)
 
-address = input("Server address: ")
-port = int(input("Server port: "))
-data = "Hello world!"
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-logging.info("Socket was created")
-clientSocket.connect((address, port))
-clientSocket.send(data.encode("UTF-8"))
+server_address = ('127.0.0.1', 8000)
 
-clientSocket.setblocking(False)
+logging.info("Connecting to " + str(server_address))
+client.connect(server_address)
+
+message = "Hello"
+
+client.sendall(message.encode("UTF-8"))
 
 while(1):
-    (srv, srvAddress) = clientSocket.accept()
-    data = srv.recv(1024)
-    print(data.decode("UTF-8"))
+    data = client.recv(1024)
+    if data:
+        print("Got back '" + str(data.decode("UTF-8") + "'"))
+    else:
+        break
 
-    sys.exit()
+client.close()
