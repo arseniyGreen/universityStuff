@@ -1,3 +1,5 @@
+/* Аркадсков А.Е. КТСО-02-20 */
+
 #include <iostream>
 #include <list>
 #include <ctime>
@@ -69,7 +71,7 @@ void printList(std::list<T>& lst)
 int main()
 {
     srand(time(NULL));
-    std::list<int> lst;
+    std::list<double> lst;
 
     /* Fill list with random numbers */
     for(size_t i = 0; i < 10; i++)
@@ -83,18 +85,17 @@ int main()
     std::cout << "\nBefore insertion : \n";
     printList(lst);
 
-    push(lst, 100);
-    push(lst, 0);
-    push(lst, -50);
-    push(lst, -302);
-    push(lst, -15);
+    push(lst, 100.12);
+    push(lst, 0.3);
+    push(lst, -50.0);
+    push(lst, -302.213);
+    push(lst, -15.52);
 
     std::cout << "\nAfter insertion : \n";
     printList(lst);
 
     /* Pop test */
-
-    int toRemove = NULL;
+    double toRemove = NULL;
     std::cout << "\nChoose element to delete: ";
     std::cin >> toRemove; std::cout << std::endl;
 
@@ -102,8 +103,7 @@ int main()
     printList(lst);
 
     /* Filter test */
-
-    std::list<int> lst2;
+    std::list<double> lst2;
     filter(lst, lst2, isPositive);
     std::cout << "\nSecond list:\n";
     printList(lst2);
