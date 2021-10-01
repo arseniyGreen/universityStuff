@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/hw.dir/main.cpp.obj"
-  "hw.exe"
-  "hw.exe.manifest"
-  "hw.lib"
+  "CMakeFiles/hw.dir/main.cpp.o"
+  "hw"
   "hw.pdb"
 )
 

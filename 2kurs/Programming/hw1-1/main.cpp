@@ -27,7 +27,7 @@ void pop(std::list<T>& lst, T elementToRemove)
     {
         if(*it == elementToRemove)
         {
-            std::cout << "\nElement found.";
+            std::cout << "\nElement found.\n";
             it = lst.erase(it);
             break;
         }
@@ -37,16 +37,16 @@ void pop(std::list<T>& lst, T elementToRemove)
 }
 
 template<class T>
-bool isEven(T x)
+bool isPositive(T x)
 {
-    return (x % 2 == 0);
+    return x > 0;
 }
 
-/* This function filters list, removing all uneven numbers */
+
 template<class T>
 void filter(std::list<T>& first, std::list<T>& second, bool (*predicate)(T))
 {
-    std::list<T>::iterator it = first.begin();
+    typename std::list<T>::iterator it = first.begin();
     while(it != first.end())
     {
         if(predicate(*it)) push(second, *it);
@@ -85,6 +85,9 @@ int main()
 
     push(lst, 100);
     push(lst, 0);
+    push(lst, -50);
+    push(lst, -302);
+    push(lst, -15);
 
     std::cout << "\nAfter insertion : \n";
     printList(lst);
@@ -99,8 +102,9 @@ int main()
     printList(lst);
 
     /* Filter test */
+
     std::list<int> lst2;
-    filter(lst, lst2, isEven);
+    filter(lst, lst2, isPositive);
     std::cout << "\nSecond list:\n";
     printList(lst2);
 
