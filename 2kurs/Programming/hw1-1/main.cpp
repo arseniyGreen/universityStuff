@@ -21,21 +21,17 @@ void push(std::list<T>& lst, T element)
 }
 
 template<class T>
-void pop(std::list<T>& lst, T elementToRemove)
+T pop(std::list<T>& lst)
 {
     typename std::list<T>::iterator it = lst.begin();
 
-    while(it != lst.end())
-    {
-        if(*it == elementToRemove)
-        {
-            std::cout << "\nElement found.\n";
-            it = lst.erase(it);
-            break;
-        }
-        *it++;
-    }
-    if(it == lst.end()) std::cerr << "\nNo such element.";
+    T returnValue;
+
+    while(it != lst.end()) it++;
+    it--;
+    returnValue = *it;
+    lst.erase(it);
+    return returnValue;
 }
 
 template<class T>
@@ -43,7 +39,6 @@ bool isPositive(T x)
 {
     return x > 0;
 }
-
 
 template<class T>
 void filter(std::list<T>& first, std::list<T>& second, bool (*predicate)(T))
@@ -70,14 +65,13 @@ void printList(std::list<T>& lst)
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(nullptr));
     std::list<double> lst;
 
     /* Fill list with random numbers */
-    for(size_t i = 0; i < 10; i++)
+    for(size_t i = 0; i < 30; i++)
     {
-        lst.push_back(rand() % 50 + 1);
-        //system("sleep 0.1"); //remove it later
+        lst.push_back(rand() % 100 - 90);
     }
 
     lst.sort();
@@ -95,12 +89,11 @@ int main()
     printList(lst);
 
     /* Pop test */
-    double toRemove = NULL;
-    std::cout << "\nChoose element to delete: ";
-    std::cin >> toRemove; std::cout << std::endl;
+    double retVal = pop(lst);
 
-    pop(lst, toRemove);
+    std::cout << "\nAfter deletion:\n";
     printList(lst);
+    std::cout << "\nPop function returned " << retVal << "\n";
 
     /* Filter test */
     std::list<double> lst2;

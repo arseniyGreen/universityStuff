@@ -1,48 +1,65 @@
+/* Аркадсков А.Е. КТСО-02-20 */
+
 #include <iostream>
 #include <list>
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
+#include <string>
+
+class Series
+{
+private:
+    std::string title, producer, country;
+    size_t seasons, popularity, rate, date;
+public:
+    Series()
+    {
+        title = producer = country = "";
+        seasons = popularity = rate = date = NULL;
+    };
+    Series(std::string title_, std::string producer_, std::string country_, size_t seasons_, size_t popularity_, size_t rate_, size_t date_)
+    {
+        title = title_; producer = producer_; country = country_;
+        seasons = seasons_; popularity = popularity_; rate = rate_; date = date_;
+    };
+
+};
 
 template<class T>
 void push(std::list<T>& lst, T element)
 {
     typename std::list<T>::iterator it = lst.begin();
 
-    while(it != lst.end() && *it < element)
-    {
-        if(*it > element) break;
+        while(it != lst.end() && *it < element)
+        {
+            if(*it > element) break;
 
-        *it++;
-    }
-    lst.insert(it, element);
+            *it++;
+        }
+        lst.insert(it, element);
 }
 
 template<class T>
-void pop(std::list<T>& lst, T elementToRemove)
+T pop(std::list<T>& lst)
 {
     typename std::list<T>::iterator it = lst.begin();
 
-    while(it != lst.end())
-    {
-        if(*it == elementToRemove)
-        {
-            std::cout << "\nElement found.";
-            it = lst.erase(it);
-            break;
-        }
-        *it++;
-    }
-    if(it == lst.end()) std::cerr << "\nNo such element.";
+    T returnValue;
+
+    while(it != lst.end()) it++;
+    it--;
+    returnValue = *it;
+    lst.erase(it);
+    return returnValue;
 }
 
 template<class T>
-bool isEven(T x)
+bool isPositive(T x)
 {
-    return (x % 2 == 0);
+    return x > 0;
 }
 
-/* This function filters list, removing all uneven numbers */
 template<class T>
 void filter(std::list<T>& first, std::list<T>& second, bool (*predicate)(T))
 {
@@ -66,22 +83,43 @@ void printList(std::list<T>& lst)
     }
 }
 
-class Series
-{
-private:
-   std::string name, producer, country;
-   int seasons, popularity, rate, year;
-
-public:
-    Series(){ name = ""; producer = ""; country = ""; seasons = NULL; popularity = NULL; rate = NULL; year = NULL; };
-    Series(std::string name_, std::string producer_, std::string country_, int seasons_, int popularity_, int rate_, int year_)
-    {
-        name = name_; producer = producer_; country = country_; seasons = seasons_; popularity = popularity_; rate = rate_; year = year_;
-    }
-};
-
 int main()
 {
+    srand(time(nullptr));
+    std::list<double> lst;
+
+    /* Fill list with random numbers */
+    for(size_t i = 0; i < 30; i++)
+    {
+        lst.push_back(rand() % 100 - 90);
+    }
+
+    lst.sort();
+
+    std::cout << "\nBefore insertion : \n";
+    printList(lst);
+
+    push(lst, 100.12);
+    push(lst, 0.3);
+    push(lst, -50.0);
+    push(lst, -302.213);
+    push(lst, -15.52);
+
+    std::cout << "\nAfter insertion : \n";
+    printList(lst);
+
+    /* Pop test */
+    double retVal = pop(lst);
+
+    std::cout << "\nAfter deletion:\n";
+    printList(lst);
+    std::cout << "\nPop function returned " << retVal << "\n";
+
+    /* Filter test */
+    std::list<double> lst2;
+    filter(lst, lst2, isPositive);
+    std::cout << "\nSecond list:\n";
+    printList(lst2);
 
     return 0;
 }
