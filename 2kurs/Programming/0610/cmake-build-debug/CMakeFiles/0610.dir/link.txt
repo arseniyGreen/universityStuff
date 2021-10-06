@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++17 -std=c++17 -g -g CMakeFiles/0610.dir/main.cpp.o -o 0610 

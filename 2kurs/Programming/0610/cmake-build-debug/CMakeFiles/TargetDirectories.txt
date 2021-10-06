@@ -1,0 +1,3 @@
+/home/notahacker/Documents/universityStuff/2kurs/Programming/0610/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/notahacker/Documents/universityStuff/2kurs/Programming/0610/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/notahacker/Documents/universityStuff/2kurs/Programming/0610/cmake-build-debug/CMakeFiles/0610.dir
