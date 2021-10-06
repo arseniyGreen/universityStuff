@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/notahacker/Documents/universityStuff/2kurs/Programming/hw1-2/main.cpp
+iostream
+-
+list
+-
+algorithm
+-
+string
+-
+

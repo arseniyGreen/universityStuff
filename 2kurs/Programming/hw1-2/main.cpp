@@ -2,8 +2,6 @@
 
 #include <iostream>
 #include <list>
-#include <ctime>
-#include <cstdlib>
 #include <algorithm>
 #include <string>
 
@@ -11,7 +9,7 @@ class Series
 {
 private:
     std::string title, producer, country;
-    size_t seasons, popularity, rate, date;
+    short seasons, popularity, rate, date;
 public:
     Series()
     {
@@ -23,8 +21,19 @@ public:
         title = title_; producer = producer_; country = country_;
         seasons = seasons_; popularity = popularity_; rate = rate_; date = date_;
     };
+    std::string getTitle() const { return title; }
+    std::string getProducer() const { return producer; }
+    std::string getCountry() const { return country; }
+    short getRate() const { return rate; }
 
+    friend std::ostream& operator<< (std::ostream& stream, Series& series);
 };
+
+std::ostream& operator<< (std::ostream& stream, Series& series)
+{
+    stream << "\nTitle : " << series.getTitle() << "\nProducer : " << series.getProducer() << "\nCountry : " << series.getCountry() << "\nRate : " << series.getRate() << std::endl;
+    return stream;
+}
 
 template<class T>
 void push(std::list<T>& lst, T element)
@@ -85,41 +94,9 @@ void printList(std::list<T>& lst)
 
 int main()
 {
-    srand(time(nullptr));
-    std::list<double> lst;
-
-    /* Fill list with random numbers */
-    for(size_t i = 0; i < 30; i++)
-    {
-        lst.push_back(rand() % 100 - 90);
-    }
-
-    lst.sort();
-
-    std::cout << "\nBefore insertion : \n";
-    printList(lst);
-
-    push(lst, 100.12);
-    push(lst, 0.3);
-    push(lst, -50.0);
-    push(lst, -302.213);
-    push(lst, -15.52);
-
-    std::cout << "\nAfter insertion : \n";
-    printList(lst);
-
-    /* Pop test */
-    double retVal = pop(lst);
-
-    std::cout << "\nAfter deletion:\n";
-    printList(lst);
-    std::cout << "\nPop function returned " << retVal << "\n";
-
-    /* Filter test */
-    std::list<double> lst2;
-    filter(lst, lst2, isPositive);
-    std::cout << "\nSecond list:\n";
-    printList(lst2);
+    std::list<Series> lst;
+    Series got;
+    push(lst, got);
 
     return 0;
 }
