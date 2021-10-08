@@ -9,14 +9,15 @@ class Series
 {
 private:
     std::string title, producer, country;
-    short seasons, popularity, rate, date;
+    short seasons, popularity, rate;
+    int date;
 public:
     Series()
     {
         title = producer = country = "";
         seasons = popularity = rate = date = NULL;
     };
-    Series(std::string title_, std::string producer_, std::string country_, short seasons_, short popularity_, short rate_, short date_)
+    Series(std::string title_, std::string producer_, std::string country_, short seasons_, short popularity_, short rate_, int date_)
     {
         title = title_; producer = producer_; country = country_;
         seasons = seasons_; popularity = popularity_; rate = rate_; date = date_;
@@ -31,7 +32,6 @@ public:
     friend std::ostream& operator<< (std::ostream& stream, Series& series);
     friend bool operator <(const Series &s1, const Series &s2);
     friend bool operator >(const Series &s1, const Series &s2);
-    friend bool operator ==(const Series &s1, const Series &s2);
 };
 
 std::ostream& operator<< (std::ostream& stream, Series& series)
@@ -43,17 +43,12 @@ std::ostream& operator<< (std::ostream& stream, Series& series)
 
 bool operator <(const Series &s1, const Series &s2)
 {
-    return s1.rate < s2.rate;
+    return (s1.rate == s2.rate) ? s1.title < s2.title : s1.rate < s2.rate;
 }
 
 bool operator >(const Series &s1, const Series &s2)
 {
-    return s1.rate > s2.rate;
-}
-
-bool operator ==(const Series &s1, const Series &s2)
-{
-    return s1.rate == s2.rate;
+    return (s1.rate == s2.rate) ? s1.title > s2.title : s1.rate > s2.rate;
 }
 
 template<class T>
@@ -85,12 +80,6 @@ T pop(std::list<T>& lst)
 }
 
 template<class T>
-bool isPositive(T x)
-{
-    return x > 0;
-}
-
-template<class T>
 void filter(std::list<T>& first, std::list<T>& second, bool (*predicate)(T))
 {
     typename std::list<T>::iterator it = first.begin();
@@ -115,6 +104,10 @@ void printList(std::list<T>& lst)
 
 int main()
 {
+    /*
+     * lst - list, filled using push function, made in №1.1, which keeps list sorted
+     * def(default) - list, filled using default push back function
+     * */
     std::list<Series> lst;
     std::list<Series> def;
 
