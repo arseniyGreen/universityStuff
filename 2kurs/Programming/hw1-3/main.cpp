@@ -177,11 +177,31 @@ public:
     ListIterator<T> end() { ListIterator<T> it = LinkedListParent<T>::tail; return it; }
 };
 
-/* Начало ДЗ, создаём шаблон двусвязного списка путём наследования  от IteratedLinkedList */
+/* Начало ДЗ */
 template<class T>
-class DLinkedList : public IteratedLinkedList<T>
+class Stack : public IteratedLinkedList<T>
 {
-    
+public:
+    Stack() : IteratedLinkedList<T>(){ std::cout << "\nStack constructor"; }
+    ~Stack(){ std::cout << "\nStack distructor"; }
+
+    virtual Element<T>* push(T value) override
+    {
+        if(IteratedLinkedList<T>::num != 0)
+        {
+            Element<T>* newElement = new Element<T>(value);
+            LinkedListParent<T>::tail->setNext(newElement);
+            newElement->setPrevious(LinkedListParent<T>::tail);
+            LinkedListParent<T>::tail = LinkedListParent<T>::tail->getNext();
+        }
+        else
+        {
+            LinkedListParent<T>::tail = new Element<T>(value);
+            LinkedListParent<T>::head = LinkedListParent<T>::tail;
+        }
+        LinkedListParent<T>::num++;
+        return LinkedListParent<T>::tail;
+    }
 };
 
 
