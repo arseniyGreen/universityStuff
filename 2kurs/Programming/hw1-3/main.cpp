@@ -252,7 +252,8 @@ void filter(Stack<T> S, bool(*predicate)(T))
     S.iterator = S.begin();
     while(S.iterator != S.end())
     {
-        if(predicate(*S.iterator)) newStack.push(S.iterator);
+        /* NEED TO FIX */
+        if(predicate(*S.iterator)) newStack.push(*S.iterator);
         S.iterator++;
     }
     std::cout << "\nFilter function completed";
