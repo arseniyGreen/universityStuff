@@ -61,7 +61,7 @@ public:
     {
         //конструктор без параметров
         cout << "\nParent constructor";
-        head = NULL;
+        head = nullptr;
         num = 0;
     }
 
@@ -103,15 +103,22 @@ ostream& operator << (ostream& ustream, LinkedListParent<T>& obj)
     if (typeid(ustream).name() == typeid(ofstream).name())
     {
         ustream << obj.num << "\n";
-        for (Element<T>* current = obj.getBegin(); current != NULL; current = current->getNext())
+        for (Element<T>* current = obj.getBegin(); current != nullptr; current = current->getNext())
             ustream << current->getValue() << " ";
         return ustream;
     }
 
     ustream << "\nLength: " << obj.num << "\n";
     int i = 0;
-    for (Element<T>* current = obj.getBegin(); current != NULL; current = current->getNext(), i++)
+    Element<T>* current = obj.getBegin();
+    for (Element<T>* current = obj.getBegin(); current != nullptr; current = current->getNext(), i++)
         ustream << "arr[" << i << "] = " << current->getValue() << "\n";
+//    while(current->getNext() != nullptr)
+//    {
+//        ustream << "arr[" << i << "] = " << current->getValue() << "\n";
+//        i++;
+//        current = current->getNext();
+//    }
 
     return ustream;
 }
@@ -148,8 +155,8 @@ public:
     ListIterator& operator=(Element<ValueType>* p) { ptr = p; return *this; }
 
     //проверка итераторов на равенство
-    bool operator!=(ListIterator const& other) const {  }
-    bool operator==(ListIterator const& other) const {  }
+    bool operator!=(ListIterator const& other) const { return ptr->getValue() != other.ptr->getValue(); }
+    bool operator==(ListIterator const& other) const { return ptr->getValue() == other.ptr->getValue(); }
     //получить значение
     Element<ValueType>& operator*()
     {
@@ -213,13 +220,12 @@ public:
 
     Element<T>* pop() override
     {
-        Element<T>* newTail = LinkedListParent<T>::tail->getPrevious();
-        delete LinkedListParent<T>::tail;
-        LinkedListParent<T>::tail = newTail;
-
+        Element<T>* ptr = LinkedListParent<T>::tail;
+        LinkedListParent<T>::tail = LinkedListParent<T>::tail->getPrevious();
+        LinkedListParent<T>::tail->setNext(nullptr);
         LinkedListParent<T>::num--;
 
-        return newTail;
+        return ptr;
     }
 };
 
@@ -232,6 +238,12 @@ public:
     {
         if(LinkedListParent<T>::num != 0)
         {
+            if(value < LinkedListParent<T>::head)
+            {
+                IteratedLinkedList<T>::head = *value->getNext();
+                IteratedLinkedList<T>::head = *value;
+            }
+
             IteratedLinkedList<T>::iterator = IteratedLinkedList<T>::begin();
             while(IteratedLinkedList<T>::iterator != IteratedLinkedList<T>::end())
             {
@@ -242,7 +254,8 @@ public:
         }
         else
         {
-            
+            LinkedListParent<T>::tail = new Element<T>(value);
+            LinkedListParent<T>::head = LinkedListParent<T>::tail;
         }
         LinkedListParent<T>::num++;
     }
@@ -260,16 +273,17 @@ int main()
     cout << "\nElement = " << e1->getValue();
     cout << S;
     cout<<"\nIndex in the Stack class: " << S[1]->getValue();
-
     cout << S;
-//    cout << "\nIterators:\n";
-//    S.iterator = S.begin();
-//    while (S.iterator != S.end())
-//    {
-//        cout << *S.iterator << " ";
-//        S.iterator++;
-//    }
-//    cout << *S.iterator << " ";
+
+    cout << "\nIterators:\n";
+    S.iterator = S.begin();
+
+    while (S.iterator != S.end())
+    {
+        cout << *S.iterator << " ";
+        S.iterator++;
+    }
+    cout << *S.iterator << " ";
 
     return 0;
 }
