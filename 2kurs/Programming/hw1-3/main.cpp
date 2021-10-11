@@ -136,11 +136,9 @@ istream& operator >> (istream& ustream, LinkedListParent<T>& obj)
 template<typename ValueType>
 class ListIterator : public std::iterator<std::input_iterator_tag, ValueType>
 {
-private:
-
 public:
     //конструкторы
-    ListIterator() { ptr = NULL; }
+    ListIterator() { ptr = nullptr; }
     ListIterator(Element<ValueType>* p) { ptr = p; }
     ListIterator(const ListIterator& it) { ptr = it.ptr; }
 
@@ -158,8 +156,16 @@ public:
         return *ptr;
     }
     //перемещение с помощью итераторов
-    ListIterator& operator++() {  return *this; }
-    ListIterator& operator++(int v) { return *this; }
+    ListIterator& operator++()
+    {
+        if(ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
+        else return *this;
+    }
+    ListIterator& operator++(int v)
+    {
+        if(ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
+        else return *this;
+    }
 private:
     //текущий элемент
     Element<ValueType>* ptr;
@@ -207,14 +213,40 @@ public:
 
     Element<T>* pop() override
     {
-        Element<T>* ptr = LinkedListParent<T>::tail->getPrevious();
+        Element<T>* newTail = LinkedListParent<T>::tail->getPrevious();
         delete LinkedListParent<T>::tail;
-        LinkedListParent<T>::tail = ptr;
+        LinkedListParent<T>::tail = newTail;
 
-        return LinkedListParent<T>::tail;
+        LinkedListParent<T>::num--;
+
+        return newTail;
     }
 };
 
+template<class T>
+class Stack2 : public Stack<T>
+{
+public:
+    /* Переопределение для сохранения порядка при добавлении */
+    Element<T>* push(T value) override
+    {
+        if(LinkedListParent<T>::num != 0)
+        {
+            IteratedLinkedList<T>::iterator = IteratedLinkedList<T>::begin();
+            while(IteratedLinkedList<T>::iterator != IteratedLinkedList<T>::end())
+            {
+                if(IteratedLinkedList<T>::iterator > value) break;
+                else IteratedLinkedList<T>::iterator++;
+            }
+
+        }
+        else
+        {
+            
+        }
+        LinkedListParent<T>::num++;
+    }
+};
 
 int main()
 {
@@ -230,14 +262,14 @@ int main()
     cout<<"\nIndex in the Stack class: " << S[1]->getValue();
 
     cout << S;
-    cout << "\nIterators:\n";
-    S.iterator = S.begin();
-    while (S.iterator != S.end())
-    {
-        cout << *S.iterator << " ";
-        S.iterator++;
-    }
-    cout << *S.iterator << " ";
+//    cout << "\nIterators:\n";
+//    S.iterator = S.begin();
+//    while (S.iterator != S.end())
+//    {
+//        cout << *S.iterator << " ";
+//        S.iterator++;
+//    }
+//    cout << *S.iterator << " ";
 
     return 0;
 }
