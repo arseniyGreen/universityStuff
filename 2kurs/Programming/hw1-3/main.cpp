@@ -17,6 +17,8 @@ private:
     //информация, хранимая в поле
     T field;
 public:
+    Element(T value){ field = value; };
+
     //доступ к полю *next
     virtual Element* getNext() { return next; }
     virtual void setNext(Element* value) { next = value; }
@@ -185,7 +187,7 @@ public:
     Stack() : IteratedLinkedList<T>(){ std::cout << "\nStack constructor"; }
     ~Stack(){ std::cout << "\nStack distructor"; }
 
-    virtual Element<T>* push(T value) override
+    Element<T>* push(T value) override
     {
         if(IteratedLinkedList<T>::num != 0)
         {
@@ -202,31 +204,40 @@ public:
         LinkedListParent<T>::num++;
         return LinkedListParent<T>::tail;
     }
+
+    Element<T>* pop() override
+    {
+        Element<T>* ptr = LinkedListParent<T>::tail->getPrevious();
+        delete LinkedListParent<T>::tail;
+        LinkedListParent<T>::tail = ptr;
+
+        return LinkedListParent<T>::tail;
+    }
 };
 
 
 int main()
 {
-//    Stack S;
-//    S.push(1);
-//    S.push(2);
-//    S.push(3);
-//    cout << S;
-//    cout << "\n";
-//    Element* e1 = S.pop();
-//    cout << "\nElement = " << e1->getValue();
-//    cout << S;
-//    cout<<"\nIndex in the Stack class: " << S[1]->getValue();
-//
-//    cout << S;
-//    cout << "\nIterators:\n";
-//    S.iterator = S.begin();
-//    while (S.iterator != S.end())
-//    {
-//        cout << *S.iterator << " ";
-//        S.iterator++;
-//    }
-//    cout << *S.iterator << " ";
+    Stack<int> S;
+    S.push(1);
+    S.push(2);
+    S.push(3);
+    cout << S;
+    cout << "\n";
+    Element<int>* e1 = S.pop();
+    cout << "\nElement = " << e1->getValue();
+    cout << S;
+    cout<<"\nIndex in the Stack class: " << S[1]->getValue();
+
+    cout << S;
+    cout << "\nIterators:\n";
+    S.iterator = S.begin();
+    while (S.iterator != S.end())
+    {
+        cout << *S.iterator << " ";
+        S.iterator++;
+    }
+    cout << *S.iterator << " ";
 
     return 0;
 }
