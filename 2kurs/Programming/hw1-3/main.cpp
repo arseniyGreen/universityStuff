@@ -190,7 +190,20 @@ public:
 
     ListIterator<T> begin() { ListIterator<T> it = LinkedListParent<T>::head; return it; }
     ListIterator<T> end() { ListIterator<T> it = LinkedListParent<T>::tail; return it; }
+
+    template<class T1> friend ostream& operator << (ostream& stream, IteratedLinkedList<T1>& lst);
 };
+
+template<class T1>
+ostream &operator<<(ostream &stream, IteratedLinkedList<T1> &lst) {
+    lst.iterator = lst.begin();
+    while(lst.iterator != lst.end())
+    {
+        stream << *lst.iterator << " ";
+        lst.iterator++;
+    }
+    return stream;
+}
 
 /* Начало ДЗ */
 template<class T>
@@ -198,7 +211,7 @@ class Stack : public IteratedLinkedList<T>
 {
 public:
     Stack() : IteratedLinkedList<T>(){ std::cout << "\nStack constructor"; }
-    ~Stack(){ std::cout << "\nStack distructor"; }
+    ~Stack(){ std::cout << "\nStack destructor"; }
 
     Element<T>* push(T value) override
     {
@@ -230,36 +243,21 @@ public:
 };
 
 template<class T>
-class Stack2 : public Stack<T>
+bool isPositive(T x) { return x > 0; }
+
+template<class T>
+void filter(Stack<T> S, bool(*predicate)(T))
 {
-public:
-    /* Переопределение для сохранения порядка при добавлении */
-    Element<T>* push(T value) override
+    Stack<T> newStack;
+    S.iterator = S.begin();
+    while(S.iterator != S.end())
     {
-        if(LinkedListParent<T>::num != 0)
-        {
-            if(value < LinkedListParent<T>::head)
-            {
-                IteratedLinkedList<T>::head = *value->getNext();
-                IteratedLinkedList<T>::head = *value;
-            }
-
-            IteratedLinkedList<T>::iterator = IteratedLinkedList<T>::begin();
-            while(IteratedLinkedList<T>::iterator != IteratedLinkedList<T>::end())
-            {
-                if(IteratedLinkedList<T>::iterator > value) break;
-                else IteratedLinkedList<T>::iterator++;
-            }
-
-        }
-        else
-        {
-            LinkedListParent<T>::tail = new Element<T>(value);
-            LinkedListParent<T>::head = LinkedListParent<T>::tail;
-        }
-        LinkedListParent<T>::num++;
+        if(predicate(*S.iterator)) newStack.push(S.iterator);
+        S.iterator++;
     }
-};
+    std::cout << "\nFilter function completed";
+    std::cout << newStack;
+}
 
 int main()
 {
@@ -267,6 +265,10 @@ int main()
     S.push(1);
     S.push(2);
     S.push(3);
+    S.push(-15);
+    S.push(124);
+    S.push(-41);
+    S.push(-423);
     cout << S;
     cout << "\n";
     Element<int>* e1 = S.pop();
@@ -284,6 +286,8 @@ int main()
         S.iterator++;
     }
     cout << *S.iterator << " ";
+
+    filter(S, isPositive);
 
     return 0;
 }
