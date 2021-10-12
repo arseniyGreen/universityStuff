@@ -16,6 +16,7 @@ private:
 
     //информация, хранимая в поле
     T field;
+
 public:
     Element(T value){ field = value; };
 
@@ -30,6 +31,8 @@ public:
     //доступ к полю с хранимой информацией field
     virtual T getValue() { return field; }
     virtual void setValue(T value) { field = value; }
+
+    Element operator*(){ return field; }
 
     template<class T1> friend ostream& operator<< (ostream& ustream, Element<T1>& obj);
 };
@@ -113,12 +116,6 @@ ostream& operator << (ostream& ustream, LinkedListParent<T>& obj)
     Element<T>* current = obj.getBegin();
     for (Element<T>* current = obj.getBegin(); current != nullptr; current = current->getNext(), i++)
         ustream << "arr[" << i << "] = " << current->getValue() << "\n";
-//    while(current->getNext() != nullptr)
-//    {
-//        ustream << "arr[" << i << "] = " << current->getValue() << "\n";
-//        i++;
-//        current = current->getNext();
-//    }
 
     return ustream;
 }
@@ -162,6 +159,8 @@ public:
     {
         return *ptr;
     }
+
+
     //перемещение с помощью итераторов
     ListIterator& operator++()
     {
@@ -243,13 +242,17 @@ public:
 };
 
 template<class T>
-bool isPositive(T x) { return x > 0; }
+bool isPositive(Element<T> elem)
+{
+    return elem.getValue() > 0;
+}
 
 template<class T>
-void filter(Stack<T> S, bool(*predicate)(T))
+void filter(Stack<T>& S, bool(*predicate)(T))
 {
     Stack<T> newStack;
     S.iterator = S.begin();
+
     while(S.iterator != S.end())
     {
         /* NEED TO FIX */
