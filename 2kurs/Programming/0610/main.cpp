@@ -197,18 +197,40 @@ private:
 
 public:
     TreeIterator() { ptr = NULL; T = NULL; }
-    TreeIterator(Tree<ValueType>* t, Node<ValueType>* p) {  }
-    TreeIterator(const TreeIterator& it) {  }
+    TreeIterator(Tree<ValueType>* t, Node<ValueType>* p) { T = t; ptr = p; }
+    TreeIterator(const TreeIterator& it) { T = it.T; ptr = it.ptr; }
 
-    TreeIterator& operator=(const TreeIterator& it) {  }
-    TreeIterator& operator=(Node<ValueType>* p) {  }
+    TreeIterator& operator=(const TreeIterator& it) { T = it.T; ptr = it.ptr; return *this; }
+    TreeIterator& operator=(Node<ValueType>* p)
+    {
+        if(T != nullptr && p!= nullptr && T->Find(p->getData(), T->getRoot())) ptr = p;
+        return *this;
+    }
 
-    bool operator!=(TreeIterator const& other) const {  }
-    bool operator==(TreeIterator const& other) const {  }
-    Node<ValueType>& operator*(){}
+    bool operator!=(TreeIterator const& other) const { return ptr != other.ptr; }
+    bool operator==(TreeIterator const& other) const { return ptr == other.ptr; }
+    Node<ValueType>& operator*()
+    {
+        return *ptr;
+    }
     TreeIterator& operator++()
     {
+        if(ptr == nullptr || T == nullptr){ return *this; }
+        if(ptr->getRight() != nullptr)
+        {
+            ptr = T->Min(ptr->getRight());
+            return *this;
+        }
 
+        Node<ValueType>* Current = ptr;
+        while(Current->getParent() != nullptr && Current->getParent()->getLeft() != Current)
+        {
+            Current = Current->getParent();
+        }
+        if(Current->getParent() != nullptr)
+            ptr = Current->getParent();
+
+        return *this;
     }
     TreeIterator& operator++(int v)
     {
