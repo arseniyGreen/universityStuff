@@ -234,7 +234,22 @@ public:
     }
     TreeIterator& operator++(int v)
     {
+        if(ptr == nullptr || T == nullptr){ return *this; }
+        if(ptr->getRight() != nullptr)
+        {
+            ptr = T->Min(ptr->getRight());
+            return *this;
+        }
 
+        Node<ValueType>* Current = ptr;
+        while(Current->getParent() != nullptr && Current->getParent()->getLeft() != Current)
+        {
+            Current = Current->getParent();
+        }
+        if(Current->getParent() != nullptr)
+            ptr = Current->getParent();
+
+        return *this;
     }
 private:
     Node<ValueType>* ptr;
@@ -249,8 +264,8 @@ public:
 
     TreeIterator<T> iterator;
 
-    TreeIterator<T> begin() {  }
-    TreeIterator<T> end() {  }
+    TreeIterator<T> begin() { return TreeIterator<T>(this, Tree<T>::Min()); }
+    TreeIterator<T> end() { return TreeIterator<T>(this, Tree<T>::Max()); }
 };
 
 template<class T>
@@ -387,19 +402,19 @@ int main()
 
     void (*f_ptr)(Node<double>*); f_ptr = print;
     /*cout << "\n-----\nPreorder:";
-    T.PreOrder(T.getRoot(), f_ptr);*/
+    T.PreOrder(T.getRoot(), f_ptr);
     cout << "\n-----\nInorder:";
     T.InOrder(T.getRoot(), f_ptr);
-    /*cout << "\n-----\nPostorder:";
+    cout << "\n-----\nPostorder:";
     T.PostOrder(T.getRoot(), f_ptr);*/
-    /*cout << "\nIterators:\n";
+    cout << "\nIterators:\n";
     T.iterator = T.begin();
     while (T.iterator != T.end())
     {
         cout << *T.iterator << " ";
         T.iterator++;
     }
-    cout << *T.iterator << " ";*/
+    cout << *T.iterator << " ";
 
     return 0;
 }
