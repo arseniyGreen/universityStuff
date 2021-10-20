@@ -259,35 +259,12 @@ std::ostream& operator << (std::ostream& stream, Stack<T1>& S){
     return stream;
 }
 
-//template<class T>
-//bool isPositive(Element<T> elem)
-//{
-//    return elem.getValue() > 0;
-//}
-
-//template<class T>
-//void filter(Stack<T>& S, bool(*predicate)(T))
-//{
-//    Stack<T> newStack;
-//    S.iterator = S.begin();
-//
-//    while(S.iterator != S.end())
-//    {
-//        /* NEED TO FIX */
-//        if(predicate(*S.iterator)) newStack.push(*S.iterator);
-//        S.iterator++;
-//    }
-//    std::cout << "\nFilter function completed";
-//    std::cout << newStack;
-//}
-
 template<class T>
 bool isPositive(T x){ return x > 0; }
 
 template<class T>
-void filter(Stack<T>& stack, bool (*predicate)(T))
+void filter(Stack<T>& stack, Stack<T>& newStack, bool (*predicate)(T))
 {
-    Stack<T> newStack;
     stack.iterator = stack.begin();
     while(stack.iterator != stack.end())
     {
@@ -297,7 +274,7 @@ void filter(Stack<T>& stack, bool (*predicate)(T))
         }
         stack.iterator++;
     }
-    std::cout << "\nFiltering done.\n" << newStack << '\n';
+    std::cout << "\nFiltering done.\n";
 }
 
 int main()
@@ -310,6 +287,8 @@ int main()
     S.push(6);
     S.push(-41);
     S.push(-423);
+    S.push(14);
+    S.push(-3);
     cout << S;
     cout << "\n";
     Element<int>* e1 = S.pop();
@@ -328,7 +307,10 @@ int main()
     }
     cout << *S.iterator << " ";
 
-    filter(S, isPositive);
+    Stack<int> filteredStack;
+
+    filter(S, filteredStack, isPositive);
+    std::cout << filteredStack;
 
     return 0;
 }
