@@ -160,18 +160,23 @@ public:
         return *ptr;
     }
 
-
     //перемещение с помощью итераторов
     ListIterator& operator++()
     {
-        if(ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
+        if(ptr->getNext() != nullptr || ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
         else return *this;
     }
     ListIterator& operator++(int v)
     {
-        if(ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
+        if(ptr->getNext() != nullptr || ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
         else return *this;
     }
+
+    ValueType getValue() const
+    {
+        return ptr->getValue();
+    }
+
 private:
     //текущий элемент
     Element<ValueType>* ptr;
@@ -239,28 +244,60 @@ public:
 
         return ptr;
     }
+
+    template<class T1> friend std::ostream& operator << (std::ostream& stream, Stack<T1>& S);
 };
 
-template<class T>
-bool isPositive(Element<T> elem)
-{
-    return elem.getValue() > 0;
-}
-
-template<class T>
-void filter(Stack<T>& S, bool(*predicate)(T))
-{
-    Stack<T> newStack;
+template<class T1>
+std::ostream& operator << (std::ostream& stream, Stack<T1>& S){
     S.iterator = S.begin();
-
     while(S.iterator != S.end())
     {
-        /* NEED TO FIX */
-        if(predicate(*S.iterator)) newStack.push(*S.iterator);
+        stream << S.iterator.getValue() << " ";
         S.iterator++;
     }
-    std::cout << "\nFilter function completed";
-    std::cout << newStack;
+    return stream;
+}
+
+//template<class T>
+//bool isPositive(Element<T> elem)
+//{
+//    return elem.getValue() > 0;
+//}
+
+//template<class T>
+//void filter(Stack<T>& S, bool(*predicate)(T))
+//{
+//    Stack<T> newStack;
+//    S.iterator = S.begin();
+//
+//    while(S.iterator != S.end())
+//    {
+//        /* NEED TO FIX */
+//        if(predicate(*S.iterator)) newStack.push(*S.iterator);
+//        S.iterator++;
+//    }
+//    std::cout << "\nFilter function completed";
+//    std::cout << newStack;
+//}
+
+template<class T>
+bool isPositive(T x){ return x > 0; }
+
+template<class T>
+void filter(Stack<T>& stack, bool (*predicate)(T))
+{
+    Stack<T> newStack;
+    stack.iterator = stack.begin();
+    while(stack.iterator != stack.end())
+    {
+        if(predicate(stack.iterator.getValue()))
+        {
+            newStack.push(stack.iterator.getValue());
+        }
+        stack.iterator++;
+    }
+    std::cout << "\nFiltering done.\n" << newStack << '\n';
 }
 
 int main()
@@ -269,8 +306,8 @@ int main()
     S.push(1);
     S.push(2);
     S.push(3);
-    S.push(-15);
-    S.push(124);
+    S.push(5);
+    S.push(6);
     S.push(-41);
     S.push(-423);
     cout << S;
