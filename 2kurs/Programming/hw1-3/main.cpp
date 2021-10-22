@@ -34,6 +34,9 @@ public:
 
     Element operator*(){ return field; }
 
+    bool operator < (const Element<T>& other) const { return field < other.field; }
+    bool operator > (const Element<T>& other) const { return field > other.field; }
+
     template<class T1> friend ostream& operator<< (ostream& ustream, Element<T1>& obj);
 };
 
@@ -159,7 +162,7 @@ public:
     //проверка итераторов на равенство
     bool operator!=(ListIterator const& other) const { return ptr->getValue() != other.ptr->getValue(); }
     bool operator==(ListIterator const& other) const { return ptr->getValue() == other.ptr->getValue(); }
-    bool operator< (ListIterator const& other) const { return ptr->getValue() < other.ptr->getValue(); }
+
     //получить значение
     Element<ValueType>& operator*()
     {
@@ -189,12 +192,12 @@ public:
 
     ListIterator& operator--()
     {
-        if(ptr->getPrevious() != nullptr) { ptr = ptr->getPrevious(); }
+        if(ptr->getPrevious() != nullptr || ptr != nullptr) { ptr = ptr->getPrevious(); }
         else return *this;
     }
     ListIterator& operator--(int v)
     {
-        if(ptr->getPrevious() != nullptr) { ptr = ptr->getPrevious(); }
+        if(ptr->getPrevious() != nullptr || ptr != nullptr) { ptr = ptr->getPrevious(); }
         else return *this;
     }
 
@@ -298,26 +301,34 @@ public:
         }
         else if(LinkedListParent<T>::num == 1)
         {
-            if(LinkedListParent<T>::head->getValue() <= toPush->getValue()) LinkedListParent<T>::head->setNext(toPush);
-            else{ toPush->setNext(LinkedListParent<T>::head); LinkedListParent<T>::head = toPush; } /* FIX IT */
+            if(toPush > IteratedLinkedList<T>::head)
+            {
+                IteratedLinkedList<T>::head->setNext(toPush);
+            }
+            else
+            {
+                toPush->setNext(IteratedLinkedList<T>::head);
+                IteratedLinkedList<T>::head = toPush; //???
+            }
             LinkedListParent<T>::num++;
         }
-
         else
         {
-            ListIterator it = LinkedListParent<T>::getBegin();
-            while(it != LinkedListParent<T>::getEnd())
+            if(toPush < IteratedLinkedList<T>::getBegin()){ toPush->setNext(IteratedLinkedList<T>::head); return IteratedLinkedList<T>::tail; }
+            ListIterator<T> it = IteratedLinkedList<T>::head->getNext();
+            while(it != IteratedLinkedList<T>::tail)
             {
-                if(it.getNext().getValue() > it.getValue() && it.getPrevious().getValue() < it.getValue())
+                if(it.getPrevious() < *it && it.getNext() > *it)
                 {
                     it.getPrevious().setNext(toPush);
                     it.getNext().setPrevious(toPush);
-                    LinkedListParent<T>::num++;
-                    break;
                 }
                 *it++;
             }
+            LinkedListParent<T>::num++;
         }
+
+        return IteratedLinkedList<T>::tail;
     }
 };
 
