@@ -146,6 +146,11 @@ public:
     ListIterator(Element<ValueType>* p) { ptr = p; }
     ListIterator(const ListIterator& it) { ptr = it.ptr; }
 
+    ValueType getValue() const
+    {
+        return ptr->getValue();
+    }
+
     //методы работы с итераторами
     //присваивание
     ListIterator& operator=(const ListIterator& it) { ptr = it.ptr; return *this; }
@@ -154,28 +159,45 @@ public:
     //проверка итераторов на равенство
     bool operator!=(ListIterator const& other) const { return ptr->getValue() != other.ptr->getValue(); }
     bool operator==(ListIterator const& other) const { return ptr->getValue() == other.ptr->getValue(); }
+    bool operator< (ListIterator const& other) const { return ptr->getValue() < other.ptr->getValue(); }
     //получить значение
     Element<ValueType>& operator*()
     {
         return *ptr;
     }
 
+    Element<ValueType>& getNext() const
+    {
+        return *ptr->getNext();
+    };
+    Element<ValueType>& getPrevious() const
+    {
+        return *ptr->getPrevious();
+    }
+
     //перемещение с помощью итераторов
     ListIterator& operator++()
     {
-        if(ptr->getNext() != nullptr || ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
+        if(ptr->getNext() != nullptr || ptr != nullptr){ ptr = ptr->getNext(); }
         else return *this;
     }
     ListIterator& operator++(int v)
     {
-        if(ptr->getNext() != nullptr || ptr->getNext() != nullptr){ ptr = ptr->getNext(); }
+        if(ptr->getNext() != nullptr || ptr != nullptr){ ptr = ptr->getNext(); }
         else return *this;
     }
 
-    ValueType getValue() const
+    ListIterator& operator--()
     {
-        return ptr->getValue();
+        if(ptr->getPrevious() != nullptr) { ptr = ptr->getPrevious(); }
+        else return *this;
     }
+    ListIterator& operator--(int v)
+    {
+        if(ptr->getPrevious() != nullptr) { ptr = ptr->getPrevious(); }
+        else return *this;
+    }
+
 
 private:
     //текущий элемент
@@ -189,8 +211,6 @@ class IteratedLinkedList : public LinkedListParent<T>
 public:
     IteratedLinkedList() : LinkedListParent<T>() { cout << "\nIteratedLinkedList constructor"; }
     virtual ~IteratedLinkedList() { cout << "\nIteratedLinkedList destructor"; }
-
-    ListIterator<T> iterator;
 
     ListIterator<T> begin() { ListIterator<T> it = LinkedListParent<T>::head; return it; }
     ListIterator<T> end() { ListIterator<T> it = LinkedListParent<T>::tail; return it; }
@@ -250,67 +270,104 @@ public:
 
 template<class T1>
 std::ostream& operator << (std::ostream& stream, Stack<T1>& S){
-    S.iterator = S.begin();
-    while(S.iterator != S.end())
+
+    ListIterator<T1> it = S.begin();
+
+    while(it != S.end())
     {
-        stream << S.iterator.getValue() << " ";
-        S.iterator++;
+        stream << *it << " ";
+        *it++;
     }
+    stream << *it;
     return stream;
 }
 
+/* Keeps ordered */
 template<class T>
-bool isPositive(T x){ return x > 0; }
+class DInheritence : public Stack<T>
+{
+public:
+    Element<T>* push(T value) override
+    {
+        Element<T>* toPush = new Element(value);
+
+        if(LinkedListParent<T>::num == 0)
+        {
+            LinkedListParent<T>::head = LinkedListParent<T>::tail = toPush;
+            LinkedListParent<T>::num++;
+        }
+        else if(LinkedListParent<T>::num == 1)
+        {
+            if(LinkedListParent<T>::head->getValue() <= toPush->getValue()) LinkedListParent<T>::head->setNext(toPush);
+            else{ toPush->setNext(LinkedListParent<T>::head); LinkedListParent<T>::head = toPush; } /* FIX IT */
+            LinkedListParent<T>::num++;
+        }
+
+        else
+        {
+            ListIterator it = LinkedListParent<T>::getBegin();
+            while(it != LinkedListParent<T>::getEnd())
+            {
+                if(it.getNext().getValue() > it.getValue() && it.getPrevious().getValue() < it.getValue())
+                {
+                    it.getPrevious().setNext(toPush);
+                    it.getNext().setPrevious(toPush);
+                    LinkedListParent<T>::num++;
+                    break;
+                }
+                *it++;
+            }
+        }
+    }
+};
 
 template<class T>
 void filter(Stack<T>& stack, Stack<T>& newStack, bool (*predicate)(T))
 {
-    stack.iterator = stack.begin();
-    while(stack.iterator != stack.end())
+    ListIterator it = stack.begin();
+    while(it != stack.end())
     {
-        if(predicate(stack.iterator.getValue()))
-        {
-            newStack.push(stack.iterator.getValue());
-        }
-        stack.iterator++;
+        if(predicate(it.getVal())){ newStack.push(*it); }
+        *it++;
     }
-    std::cout << "\nFiltering done.\n";
+    std::cout << "Filtering done!\n";
 }
 
 int main()
 {
     Stack<int> S;
-    S.push(1);
-    S.push(2);
-    S.push(3);
-    S.push(5);
-    S.push(6);
+    S.push(11);
+    S.push(-35);
+    S.push(332);
+    S.push(-10);
+    S.push(62);
     S.push(-41);
-    S.push(-423);
-    S.push(14);
-    S.push(-3);
-    cout << S;
+    cout << "\n" << S;
     cout << "\n";
     Element<int>* e1 = S.pop();
-    cout << "\nElement = " << e1->getValue();
+    cout << "\nElement = " << e1->getValue() << "\n";
     cout << S;
-    cout<<"\nIndex in the Stack class: " << S[1]->getValue();
+    cout<<"\nIndex in the Stack class: " << S[1]->getValue() << "\n";
     cout << S;
 
     cout << "\nIterators:\n";
-    S.iterator = S.begin();
+    /* "<<" overload for stack based on iterators */
+    std::cout << S << "\n";
 
-    while (S.iterator != S.end())
-    {
-        cout << *S.iterator << " ";
-        S.iterator++;
-    }
-    cout << *S.iterator << " ";
+    std::cout << "D inh test :\n";
+    DInheritence<int> S2;
+    S2.push(11);
+    S2.push(-35);
+    S2.push(332);
+    S2.push(-10);
+    S2.push(62);
+    S2.push(-41);
+    std::cout << S2 << "\n";
 
-    Stack<int> filteredStack;
+//    Stack<int> filteredStack;
 
-    filter(S, filteredStack, isPositive);
-    std::cout << filteredStack;
+    //filter(S, filteredStack, isPositive);
+    //std::cout << filteredStack;
 
     return 0;
 }
