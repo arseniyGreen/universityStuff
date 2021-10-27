@@ -11,26 +11,23 @@ void push(std::list<T>& lst, T element)
 {
     typename std::list<T>::iterator it = lst.begin();
 
-        while(it != lst.end() && *it < element)
-        {
-            if(*it > element) break;
+    while(it != lst.end() && *it < element)
+    {
+        if(*it > element) break;
 
-            *it++;
-        }
-        lst.insert(it, element);
+        *it++;
+    }
+    lst.insert(it, element);
 }
 
 template<class T>
 T pop(std::list<T>& lst)
 {
-    typename std::list<T>::iterator it = lst.begin();
+    typename std::list<T>::iterator it = --lst.end();
 
-    T returnValue;
-
-    while(it != lst.end()) it++;
-    it--;
-    returnValue = *it;
+    T returnValue = *it;
     lst.erase(it);
+
     return returnValue;
 }
 
