@@ -18,7 +18,7 @@ private:
     T field;
 
 public:
-    Element(T value){ field = value; };
+    Element(T value) { field = value; };
 
     //доступ к полю *next
     virtual Element* getNext() { return next; }
@@ -32,7 +32,7 @@ public:
     virtual T getValue() { return field; }
     virtual void setValue(T value) { field = value; }
 
-    Element operator*(){ return field; }
+    Element operator*() { return field; }
 
     bool operator < (const Element<T>& other) const { return field < other.field; }
     bool operator > (const Element<T>& other) const { return field > other.field; }
@@ -181,23 +181,23 @@ public:
     //перемещение с помощью итераторов
     ListIterator& operator++()
     {
-        if(ptr->getNext() != nullptr || ptr != nullptr){ ptr = ptr->getNext(); }
+        if (ptr->getNext() != nullptr || ptr != nullptr) { ptr = ptr->getNext(); }
         else return *this;
     }
     ListIterator& operator++(int v)
     {
-        if(ptr->getNext() != nullptr || ptr != nullptr){ ptr = ptr->getNext(); }
+        if (ptr->getNext() != nullptr || ptr != nullptr) { ptr = ptr->getNext(); }
         else return *this;
     }
 
     ListIterator& operator--()
     {
-        if(ptr->getPrevious() != nullptr || ptr != nullptr) { ptr = ptr->getPrevious(); }
+        if (ptr->getPrevious() != nullptr || ptr != nullptr) { ptr = ptr->getPrevious(); }
         else return *this;
     }
     ListIterator& operator--(int v)
     {
-        if(ptr->getPrevious() != nullptr || ptr != nullptr) { ptr = ptr->getPrevious(); }
+        if (ptr->getPrevious() != nullptr || ptr != nullptr) { ptr = ptr->getPrevious(); }
         else return *this;
     }
 
@@ -222,9 +222,9 @@ public:
 };
 
 template<class T1>
-ostream &operator<<(ostream &stream, IteratedLinkedList<T1> &lst) {
+ostream& operator<<(ostream& stream, IteratedLinkedList<T1>& lst) {
     lst.iterator = lst.begin();
-    while(lst.iterator != lst.end())
+    while (lst.iterator != lst.end())
     {
         stream << *lst.iterator << " ";
         lst.iterator++;
@@ -237,12 +237,12 @@ template<class T>
 class Stack : public IteratedLinkedList<T>
 {
 public:
-    Stack() : IteratedLinkedList<T>(){ std::cout << "\nStack constructor"; }
-    ~Stack(){ std::cout << "\nStack destructor"; }
+    Stack() : IteratedLinkedList<T>() { std::cout << "\nStack constructor"; }
+    ~Stack() { std::cout << "\nStack destructor"; }
 
     Element<T>* push(T value) override
     {
-        if(IteratedLinkedList<T>::num != 0)
+        if (IteratedLinkedList<T>::num != 0)
         {
             Element<T>* newElement = new Element<T>(value);
             LinkedListParent<T>::tail->setNext(newElement);
@@ -272,11 +272,11 @@ public:
 };
 
 template<class T1>
-std::ostream& operator << (std::ostream& stream, Stack<T1>& S){
+std::ostream& operator << (std::ostream& stream, Stack<T1>& S) {
 
     ListIterator<T1> it = S.begin();
 
-    while(it != S.end())
+    while (it != S.end())
     {
         stream << *it << " ";
         *it++;
@@ -292,43 +292,33 @@ class DInheritence : public Stack<T>
 public:
     Element<T>* push(T value) override
     {
-        Element<T>* toPush = new Element(value);
+        Element<T>* newElement = new Element<T>(value);
 
-        if(LinkedListParent<T>::num == 0)
+        if (LinkedListParent<T>::num == 0)
         {
-            LinkedListParent<T>::head = LinkedListParent<T>::tail = toPush;
-            LinkedListParent<T>::num++;
+            LinkedListParent<T>::head = LinkedListParent<T>::tail = newElement;
         }
-        else if(LinkedListParent<T>::num == 1)
+        else if (LinkedListParent<T>::num == 1)
         {
-            if(toPush > IteratedLinkedList<T>::head)
+            std::cout << "\nInvoked\n"; //to remove
+            if (LinkedListParent<T>::head->getValue() > newElement->getValue())
             {
-                IteratedLinkedList<T>::head->setNext(toPush);
+                std::cout << "\nHead bigger\n"; //to remove
+                Element<T>* ptr = LinkedListParent<T>::head;
+                LinkedListParent<T>::head = newElement;
+                LinkedListParent<T>::head->setNext(ptr);
+                LinkedListParent<T>::tail = ptr;
             }
             else
             {
-                toPush->setNext(IteratedLinkedList<T>::head);
-                IteratedLinkedList<T>::head = toPush; //???
+                std::cout << "\nHead smaller\n"; //to remove
+                LinkedListParent<T>::head->setNext(newElement);
+                LinkedListParent<T>::tail = newElement;
             }
-            LinkedListParent<T>::num++;
         }
-        else
-        {
-            if(toPush < IteratedLinkedList<T>::getBegin()){ toPush->setNext(IteratedLinkedList<T>::head); return IteratedLinkedList<T>::tail; }
-            ListIterator<T> it = IteratedLinkedList<T>::head->getNext();
-            while(it != IteratedLinkedList<T>::tail)
-            {
-                if(it.getPrevious() < *it && it.getNext() > *it)
-                {
-                    it.getPrevious().setNext(toPush);
-                    it.getNext().setPrevious(toPush);
-                }
-                *it++;
-            }
-            LinkedListParent<T>::num++;
-        }
-
-        return IteratedLinkedList<T>::tail;
+        else {}
+        LinkedListParent<T>::num++;
+        return LinkedListParent<T>::tail;
     }
 };
 
@@ -336,9 +326,9 @@ template<class T>
 void filter(Stack<T>& stack, Stack<T>& newStack, bool (*predicate)(T))
 {
     ListIterator it = stack.begin();
-    while(it != stack.end())
+    while (it != stack.end())
     {
-        if(predicate(it.getVal())){ newStack.push(*it); }
+        if (predicate(it.getVal())) { newStack.push(*it); }
         *it++;
     }
     std::cout << "Filtering done!\n";
@@ -358,7 +348,7 @@ int main()
     Element<int>* e1 = S.pop();
     cout << "\nElement = " << e1->getValue() << "\n";
     cout << S;
-    cout<<"\nIndex in the Stack class: " << S[1]->getValue() << "\n";
+    cout << "\nIndex in the Stack class: " << S[1]->getValue() << "\n";
     cout << S;
 
     cout << "\nIterators:\n";
@@ -366,16 +356,13 @@ int main()
     std::cout << S << "\n";
 
     std::cout << "D inh test :\n";
-    DInheritence<int> S2;
+    DInheritence<int> S2; std::cout << "\n";
     S2.push(11);
-    S2.push(-35);
-    S2.push(332);
-    S2.push(-10);
-    S2.push(62);
-    S2.push(-41);
+    S2.push(13);
+
     std::cout << S2 << "\n";
 
-//    Stack<int> filteredStack;
+    //    Stack<int> filteredStack;
 
     //filter(S, filteredStack, isPositive);
     //std::cout << filteredStack;
