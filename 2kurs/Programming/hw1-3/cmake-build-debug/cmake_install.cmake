@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Arseniy/Documents/GitHub/universityStuff/2kurs/Programming/hw1-3
+# Install script for directory: C:/Users/Notahacker/Documents/GitHub/universityStuff/2kurs/Programming/hw1-3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Arseniy/Documents/GitHub/universityStuff/2kurs/Programming/hw1-3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Notahacker/Documents/GitHub/universityStuff/2kurs/Programming/hw1-3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
