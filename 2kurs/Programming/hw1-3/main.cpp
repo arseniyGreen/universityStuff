@@ -163,6 +163,11 @@ public:
     bool operator!=(ListIterator const& other) const { return ptr->getValue() != other.ptr->getValue(); }
     bool operator==(ListIterator const& other) const { return ptr->getValue() == other.ptr->getValue(); }
 
+    Element<ValueType>& getElement()
+    {
+        return *ptr;
+    }
+
     //получить значение
     Element<ValueType>& operator*()
     {
@@ -290,6 +295,9 @@ template<class T>
 class DInheritence : public Stack<T>
 {
 public:
+    Element<T>* getHead() { return LinkedListParent<T>::head; }
+    Element<T>* getTail() { return LinkedListParent<T>::tail; }
+
     Element<T>* push(T value) override
     {
         Element<T>* newElement = new Element<T>(value);
@@ -316,10 +324,32 @@ public:
                 LinkedListParent<T>::tail = newElement;
             }
         }
-        else {}
+        else
+        {
+            std::cout << "\nInvoked 2 and more situation\n";
+            if (IteratedLinkedList<T>::tail->getValue() < newElement->getValue())
+            {
+                Element<T>* ptr = IteratedLinkedList<T>::tail;
+                IteratedLinkedList<T>::tail = newElement;
+                newElement->setPrevious(ptr);
+                ptr->setNext(newElement);
+            }
+            else
+            {
+                ListIterator<T> it = IteratedLinkedList<T>::head;
+                ListIterator<T> it2 = it++;
+                while(it.getValue() < it2.getValue()) //optimize it
+                {
+                    *it++;
+                }
+                it.getElement().setNext(newElement);
+                it2.getElement().setPrevious(newElement);
+            }
+        }
         LinkedListParent<T>::num++;
         return LinkedListParent<T>::tail;
     }
+
 };
 
 template<class T>
@@ -359,6 +389,9 @@ int main()
     DInheritence<int> S2; std::cout << "\n";
     S2.push(11);
     S2.push(13);
+    S2.push(14);
+    S2.push(16);
+    S2.push(12);
 
     std::cout << S2 << "\n";
 
