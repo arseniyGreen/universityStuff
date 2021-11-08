@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-1/main.cpp
+iostream
+-
+string
+-
+map
+-
+
