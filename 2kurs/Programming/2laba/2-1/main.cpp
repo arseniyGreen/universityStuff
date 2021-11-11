@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <utility>
 
 class Series
 {
@@ -14,11 +15,12 @@ public:
     Series()
     {
         title = producer = country = "";
-        seasons = popularity = rate = date = NULL;
+        seasons = popularity = rate = 0;
+        date = 0;
     };
     Series(std::string title_, std::string producer_, std::string country_, short seasons_, short popularity_, short rate_, int date_)
     {
-        title = title_; producer = producer_; country = country_;
+        title = std::move(title_); producer = std::move(producer_); country = std::move(country_);
         seasons = seasons_; popularity = popularity_; rate = rate_; date = date_;
     };
     std::string getTitle() const { return title; }
@@ -62,10 +64,11 @@ bool isHigher(Series S)
     return S.getRate() > treshold;
 }
 
-std::map<std::string, Series> filter(std::map<std::string, Series>& tree, bool (*predicate)(Series))
+template<class A, class B>
+std::map<A, B> filter(std::map<A, B>& tree, bool (*predicate)(B))
 {
-    std::map<std::string, Series> newTree;
-    std::map<std::string, Series>::iterator it = tree.begin();
+    std::map<A, B> newTree;
+    typename std::map<A, B>::iterator it = tree.begin();
     while(it != tree.end())
     {
         if(predicate(it->second))
@@ -77,9 +80,10 @@ std::map<std::string, Series> filter(std::map<std::string, Series>& tree, bool (
     return newTree;
 }
 
-void printTree(std::map<std::string, Series> tree)
+template<class A, class B>
+void printTree(std::map<A, B> tree)
 {
-    std::map<std::string, Series>::iterator it = tree.begin();
+    typename std::map<A, B>::iterator it = tree.begin();
     while(it != tree.end())
     {
         std::cout << "Key : " << it->first << " , Value : " << it->second << "\n";
@@ -87,9 +91,10 @@ void printTree(std::map<std::string, Series> tree)
     }
 }
 
-void findByKey(std::map<std::string, Series> tree, std::string key)
+template<class A, class B>
+void findByKey(std::map<A, B> tree, A key)
 {
-    std::map<std::string, Series>::iterator it = tree.begin();
+    typename std::map<A, B>::iterator it = tree.begin();
     while(it != tree.end())
     {
         if(it->first == key) { std::cout << "\nKEY FOUND : " << key << " Value by key : " << it->second; return; }
@@ -98,9 +103,10 @@ void findByKey(std::map<std::string, Series> tree, std::string key)
     std::cout << "\nNO MATCHES FOUND.\n";
 }
 
-void findByValue(std::map<std::string, Series> tree, Series value)
+template<class A, class B>
+void findByValue(std::map<A, B> tree, B value)
 {
-    std::map<std::string, Series>::iterator it = tree.begin();
+    typename std::map<A, B>::iterator it = tree.begin();
     while(it != tree.end())
     {
         if(it->second == value){ std::cout << "\nVALUE FOUND : " << value << " KEY FOR THIS VALUE : " << it->first; return; }
@@ -128,13 +134,13 @@ int main() {
     std::map<std::string, Series> filteredTree = filter(tree, isHigher);
     printTree(filteredTree);
 
-    std::cout << "\nKey filtration test:\n";
-    findByKey(tree, "FB"); //success
-    findByKey(tree, "RANDOM STRING"); //fail
+    std::cout << "\nKey search test:\n";
+    findByKey(tree, std::string("FB")); //success
+    findByKey(tree, std::string("RANDOM STRING")); //fail
 
-    std::cout << "\nValue filtration test:\n";
+    std::cout << "\nValue search test:\n";
     Series MrR_duplicate("Mister Robot", "Sam Esmail", "USA", 4, 88, 92, 24062015);
-    Series MrR_wrong("Mister Robott", "Sam Esmail", "Russia", 4, 88, 100500, 24062015);
+    Series MrR_wrong("Mister Robott", "Sam Esmail", "Russia", 4, 88, 101, 24062015);
     findByValue(tree, MrR_duplicate); //success
     findByValue(tree, MrR_wrong); //fail
 
