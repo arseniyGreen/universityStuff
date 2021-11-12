@@ -94,13 +94,14 @@ void printTree(std::map<A, B> tree)
 template<class A, class B>
 void findByKey(std::map<A, B> tree, A key)
 {
-    typename std::map<A, B>::iterator it = tree.begin();
-    while(it != tree.end())
+    if(tree.count(key) == 1)
     {
-        if(it->first == key) { std::cout << "\nKEY FOUND : " << key << " Value by key : " << it->second; return; }
-        *it++;
+        std::cout << "\nKey found!. Value by key : " << tree.at(key) << "\n";
     }
-    std::cout << "\nNO MATCHES FOUND.\n";
+    else
+    {
+        std::cout << "\nNo matches found!\n";
+    }
 }
 
 template<class A, class B>
