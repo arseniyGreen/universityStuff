@@ -1,9 +1,10 @@
-/* Аркадсков А.Е. КТСО-02-20 */
-
 #include <iostream>
+#include <queue>
 #include <string>
-#include <map>
-#include <utility>
+#include <vector>
+//#include "Series.h"
+
+#define _GLIBCXX_USE_CXX11_ABI 0
 
 class Series
 {
@@ -58,94 +59,33 @@ bool operator ==(const Series &s1, const Series &s2)
     return (s1.rate == s2.rate && s1.title == s2.title && s1.producer == s2.producer && s1.seasons == s2.seasons && s1.date == s2.date && s1.popularity == s2.popularity);
 }
 
-bool isHigher(Series S)
+template<class K, class V>
+void printQueue(std::priority_queue<std::pair<K, V>, std::vector<std::pair<K, V>>, std::greater<V>>& q)
 {
-    int treshold = 90;
-    return S.getRate() > treshold;
-}
-
-template<class A, class B>
-std::map<A, B> filter(std::map<A, B>& tree, bool (*predicate)(B))
-{
-    std::map<A, B> newTree;
-    typename std::map<A, B>::iterator it = tree.begin();
-    while(it != tree.end())
+    while(!q.empty())
     {
-        if(predicate(it->second))
-        {
-            newTree[it->first] = it->second;
-        }
-        *it++;
+        Series tmp = q.top().second;
+        std::cout << "\nKey : " << q.top().first << "\tValue:" << tmp;
+        q.pop();
     }
-    return newTree;
-}
-
-template<class A, class B>
-void printTree(std::map<A, B> tree)
-{
-    typename std::map<A, B>::iterator it = tree.begin();
-    while(it != tree.end())
-    {
-        std::cout << "Key : " << it->first << " , Value : " << it->second << "\n";
-        it++;
-    }
-}
-
-template<class A, class B>
-B findByKey(std::map<A, B> tree, A key)
-{
-    if(tree.count(key) == 1)
-    {
-        std::cout << "\nKey found!. Value by key : " << tree.at(key) << "\n";
-    }
-    else
-    {
-        std::cout << "\nNo matches found!\n";
-    }
-    return tree.at(key);
-}
-
-template<class A, class B>
-A findByValue(std::map<A, B> tree, B value)
-{
-    typename std::map<A, B>::iterator it = tree.begin();
-    while(it != tree.end())
-    {
-        if(it->second == value){ std::cout << "\nVALUE FOUND : " << value << " KEY FOR THIS VALUE : " << it->first; return it->first; }
-        *it++;
-    }
-    std::cout << "\nNO MATCHES FOUND.\n";
-    return NULL;
 }
 
 int main() {
+    std::priority_queue<std::pair<std::string, Series>, std::vector<std::pair<std::string, Series>>, std::greater<Series>> q;
+
     Series MrR("Mister Robot", "Sam Esmail", "USA", 4, 88, 92, 24062015);
     Series GoT("Game Of Thrones", "David Benioff", "USA", 8, 100, 92, 17042011);
     Series TwD("The Walking Dead", "Jolly Dale", "USA", 10, 84, 94, 31102010);
-    Series FB("Family Business", "Carl Weber", "France", 2, 73, 89, 28062019);
+    Series Fb("Family Business", "Carl Weber", "France", 2, 73, 89, 28062019);
 
-    std::map<std::string, Series> tree;
+    std::pair <std::string, Series> MR; MR.first = std::string("MrR"); MR.second = MrR;
+    std::pair <std::string, Series> GOT; GOT.first = std::string("GoT"); GOT.second = GoT;
+    std::pair <std::string, Series> TWD; TWD.first = std::string("TwD"); TWD.second = TwD;
+    std::pair <std::string, Series> FB; FB.first = std::string("FB"); FB.second = Fb;
 
-    tree["MrR"] = MrR;
-    tree["GoT"] = GoT;
-    tree["TwD"] = TwD;
-    tree["FB"] = FB;
+    q.push(MR); q.push(GOT); q.push(TWD); q.push(FB);
 
-    printTree(tree);
-
-    std::cout << "\nFilter test\n";
-    std::map<std::string, Series> filteredTree = filter(tree, isHigher);
-    printTree(filteredTree);
-
-    std::cout << "\nKey search test:\n";
-    findByKey(tree, std::string("FB")); //success
-    findByKey(tree, std::string("RANDOM STRING")); //fail
-
-    std::cout << "\nValue search test:\n";
-    Series MrR_duplicate("Mister Robot", "Sam Esmail", "USA", 4, 88, 92, 24062015);
-    Series MrR_wrong("Mister Robott", "Sam Esmail", "Russia", 4, 88, 101, 24062015);
-    findByValue(tree, MrR_duplicate); //success
-    findByValue(tree, MrR_wrong); //fail
+//    printQueue(q);
 
     return 0;
 }
