@@ -97,12 +97,13 @@ B findByKey(std::map<A, B> tree, A key)
     if(tree.count(key) == 1)
     {
         std::cout << "\nKey found!. Value by key : " << tree.at(key) << "\n";
+        return tree.at(key);
     }
     else
     {
         std::cout << "\nNo matches found!\n";
+        return Series();
     }
-    return tree.at(key);
 }
 
 template<class A, class B>

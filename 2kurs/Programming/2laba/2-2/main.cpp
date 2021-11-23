@@ -60,7 +60,7 @@ bool operator ==(const Series &s1, const Series &s2)
 }
 
 template<class K, class V>
-void printQueue(std::priority_queue<std::pair<K, V>, std::vector<std::pair<K, V>>, std::greater<V>>& q)
+void printQueue(std::priority_queue<std::pair<K, V>>& q)
 {
     while(!q.empty())
     {
@@ -71,7 +71,7 @@ void printQueue(std::priority_queue<std::pair<K, V>, std::vector<std::pair<K, V>
 }
 
 int main() {
-    std::priority_queue<std::pair<std::string, Series>, std::vector<std::pair<std::string, Series>>, std::greater<Series>> q;
+    std::priority_queue<std::pair<std::string, Series>> q;
 
     Series MrR("Mister Robot", "Sam Esmail", "USA", 4, 88, 92, 24062015);
     Series GoT("Game Of Thrones", "David Benioff", "USA", 8, 100, 92, 17042011);
@@ -85,7 +85,7 @@ int main() {
 
     q.push(MR); q.push(GOT); q.push(TWD); q.push(FB);
 
-//    printQueue(q);
+    printQueue(q);
 
     return 0;
 }
