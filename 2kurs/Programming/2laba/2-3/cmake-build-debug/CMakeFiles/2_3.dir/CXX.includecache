@@ -6,9 +6,17 @@
 
 #IncludeRegexTransform: 
 
+/home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/Series.h
+
 /home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/main.cpp
 iostream
 -
 cmath
 -
+exception
+-
+stack
+-
+Series.h
+/home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/Series.h
 

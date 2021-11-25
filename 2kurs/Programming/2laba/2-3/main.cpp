@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include <exception>
+#include <stack>
+#include "Series.h"
 
 using namespace std;
 //узел
@@ -169,6 +172,13 @@ public:
         return Find_R(data, root);
     }
 
+    virtual Node<T>* Find_Left()
+    {
+        Node<T>* ptr = root;
+        while(ptr->getLeft() != nullptr){ ptr = ptr->getLeft(); }
+        return ptr;
+    }
+
     //поиск узла в дереве. Второй параметр - в каком поддереве искать, первый - что искать
     virtual Node<T>* Find_R(T data, Node<T>* Current)
     {
@@ -221,31 +231,51 @@ public:
 template<typename ValueType>
 class TreeIterator : public std::iterator<std::input_iterator_tag, ValueType>
 {
-private:
-
 public:
     TreeIterator() { ptr = nullptr; T = nullptr; }
     //ListIterator(ValueType* p) { ptr = p; }
     TreeIterator(Tree<ValueType>* t, Node<ValueType>* p) {  }
     TreeIterator(const TreeIterator& it) {  }
 
-    bool operator!=(TreeIterator const& other) const { }
-    bool operator==(TreeIterator const& other) const {  }
+    bool operator!=(TreeIterator const& other) const { return ptr != other.ptr; }
+    bool operator==(TreeIterator const& other) const { return ptr == other.ptr; }
     Node<ValueType>& operator*()
     {
-
+//        if(ptr == nullptr){ std::cerr << "\nNo iterator found."; }
+//        else{ return *ptr; }
+        return *ptr;
     }
     TreeIterator& operator++()
     {
-
+        Node<ValueType>* p;
+        if(ptr == nullptr)
+        {
+            ptr = T->getRoot();
+            if(ptr == nullptr){ std::cerr << "\nError."; return nullptr; }
+            while(ptr->getLeft() != nullptr) ptr = ptr->getLeft();
+        }
+        else {
+            if (ptr->getRight() != nullptr) {
+                ptr = ptr->getRight();
+                while (ptr->getLeft() != nullptr) { ptr = ptr->getLeft(); }
+            } else {
+                p = ptr->getParent();
+                while (ptr != nullptr && ptr != p->getRight()) {
+                    ptr = p;
+                    ptr = ptr->getParent();
+                }
+            }
+            ptr = p;
+            return *this;
+        }
     }
     TreeIterator& operator++(int v)
     {
 
     }
 
-    TreeIterator& operator=(const TreeIterator& it) {  }
-    TreeIterator& operator=(Node<ValueType>* p) {  }
+    TreeIterator& operator=(const TreeIterator& it) { ptr = it.ptr; }
+    TreeIterator& operator=(Node<ValueType>* p) { ptr = p; }
 private:
     Node<ValueType>* ptr;
     Tree<ValueType>* T;
@@ -399,21 +429,24 @@ int main()
     Node<double>* M = T.Min();
     cout << "\nMin = " << M->getData() << "\tFind " << arr[3] << ": " << T.Find_R(arr[3], T.getRoot());
 
-    void (*f_ptr)(Node<double>*); f_ptr = print;
+//    void (*f_ptr)(Node<double>*); f_ptr = print;
     /*cout << "\n-----\nPreorder:";
     T.PreOrder(T.getRoot(), f_ptr);*/
-    cout << "\n-----\nInorder:";
-    T.InOrder(T.getRoot(), f_ptr);
+//    cout << "\n-----\nInorder:";
+//    T.InOrder(T.getRoot(), f_ptr);
     /*cout << "\n-----\nPostorder:";
     T.PostOrder(T.getRoot(), f_ptr);*/
-    /*cout << "\nIterators:\n";
-    T.iterator = T.begin();
+
+    Node<double>* left = T.Find_Left();
+
+    cout << "\nIterators:\n";
+    T.iterator = T.getRoot();
     while (T.iterator != T.end())
     {
         cout << *T.iterator << " ";
         T.iterator++;
     }
-    cout << *T.iterator << " ";*/
+    cout << *T.iterator << " ";
 
     return 0;
 }
