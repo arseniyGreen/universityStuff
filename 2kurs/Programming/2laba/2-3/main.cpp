@@ -1,10 +1,8 @@
 #include <iostream>
-#include <cmath>
 #include <exception>
 #include <stack>
 #include "Series.h"
 
-using namespace std;
 //узел
 template<class T>
 class Node
@@ -54,7 +52,7 @@ public:
 
     virtual void print()
     {
-        cout << "\n" << data;
+        std::cout << "\n" << data.second;
     }
 
     virtual void setHeight(int h)
@@ -62,17 +60,21 @@ public:
         height = h;
     }
 
-    template<class T1> friend ostream& operator<< (ostream& stream, Node<T1>& N);
+    template<class T1> friend std::ostream& operator<< (std::ostream& stream, Node<T1>& N);
 };
 
 template<class T>
-ostream& operator<< (ostream& stream, Node<T>& N)
+std::ostream& operator<< (std::ostream& stream, Node<T>& N)
 {
-    stream << "\nNode data: " << N.data << ", height: " << N.height;
+    stream << "\nNode data: " << N.data.second << ", height: " << N.height;
     return stream;
 }
 template<class T>
-void print(Node<T>* N) { cout << "\n" << N->getData(); }
+void print(Node<T>* N)
+{
+    Series tmp = N->getData().second;
+    std::cout << "\n"<< "Key: " << N->getData().first << "\tData :" << tmp;
+}
 
 template<class T>
 class Tree
@@ -136,7 +138,9 @@ public:
 
     //удаление узла
     virtual void Remove(Node<T>* N)
-    { }
+    {
+        //TODO
+    }
 
     virtual Node<T>* Min(Node<T>* Current=nullptr)
     {
@@ -192,7 +196,6 @@ public:
 
         if (Current->getData() < data) return Find_R(data, Current->getRight());
 
-
     }
 
     //три обхода дерева
@@ -237,7 +240,6 @@ private:
 
 public:
     TreeIterator() { ptr = nullptr; T = nullptr; }
-//    ListIterator(ValueType* p) { ptr = p; }
     TreeIterator(Node<ValueType>* p) { ptr = p; }
     TreeIterator(const TreeIterator& it) { ptr = it.ptr; }
 
@@ -245,43 +247,28 @@ public:
     bool operator==(TreeIterator const& other) const { return ptr == other.ptr; }
     Node<ValueType>& operator*()
     {
-//        if(ptr == nullptr){ std::cerr << "\nNo iterator found."; }
-//        else{ return *ptr; }
-        return *ptr;
+        if(ptr == nullptr){ std::cerr << "\nNo iterator found."; }
+        else{ return *ptr; }
     }
 
     // Pre
     TreeIterator& operator++()
     {
-//        if(ptr->getRight())
-//        {
-//            ptr = ptr->getRight();
-//            while(ptr->getLeft() != nullptr)
-//            {
-//                ptr = ptr->getLeft();
-//            }
-//        }
-//        else
-//        {
-//            Node<ValueType>* before;
-//            do{
-//                before = ptr;
-//                ptr = ptr->getParent();
-//            }while(ptr != nullptr && before == ptr->getRight());
-//        }
-//        return *this;
-
-        Node<ValueType>* p;
-        if(ptr == nullptr)
-        {//ptr = ptr.getleft
-            if(ptr == nullptr) while(ptr->getLeft() != nullptr) ptr = ptr->getLeft();
+        if(ptr->getRight())
+        {
+            ptr = ptr->getRight();
+            while(ptr->getLeft() != nullptr)
+            {
+                ptr = ptr->getLeft();
+            }
         }
-        else if(ptr->getRight() != nullptr){ ptr = ptr->getRight(); while(ptr->getLeft() != nullptr) ptr = ptr->getLeft(); }
         else
         {
-            p = ptr->getParent();
-            while(p != nullptr && ptr == p->getRight()){ ptr = p; p = p->getParent(); }
-            ptr = p;
+            Node<ValueType>* before;
+            do{
+                before = ptr;
+                ptr = ptr->getParent();
+            }while(ptr != nullptr && before == ptr->getRight());
         }
         return *this;
     }
@@ -289,29 +276,12 @@ public:
     // Post
     TreeIterator& operator++(int v)
     {
-//        TreeIterator<ValueType> old(*this);
-//        ++(*this);
-//        return old;
-        if(!ptr) return *this;
-        else {
-            Node<ValueType> *p;
-            auto *temp = new TreeIterator<ValueType>(ptr);
-            if (ptr == nullptr) { while (ptr->getLeft() != nullptr) ptr = ptr->getLeft(); }
-            else if (ptr->getRight() != nullptr) {
-                ptr = ptr->getRight();
-                while (ptr->getLeft() != nullptr) ptr = ptr->getLeft();
-            }
-            else {
-                p = ptr->getParent();
-                while (p != nullptr && ptr == p->getRight()) {
-                    ptr = p;
-                    p = p->getParent();
-                }
-                ptr = p;
-            }
-            return *temp;
-        }
+        TreeIterator<ValueType> old(*this);
+        ++(*this);
+        return old;
     }
+
+    Node<ValueType>* getData(){ return ptr; }
 
     TreeIterator& operator=(const TreeIterator& it) { ptr = it.ptr; return *this; }
     TreeIterator& operator=(Node<ValueType>* p) { ptr = p; return *this; }
@@ -451,36 +421,88 @@ public:
     { }
 };
 
+//Search by key function
+template<class K, class V>
+V searchByKey(AVL_Tree<std::pair<K, V>> tree, K k)
+{
+    for(TreeIterator it = tree.Find_Left(); it != tree.end(); it++)
+    {
+//        K current = it.getData()->getData().first;
+        if(it.getData()->getData().first == k)
+        {
+            V tmp = it.getData()->getData().second;
+            std::cout << "\nKey " << k << " found.\tValue by key: " << tmp << "\n";
+            return tmp;
+        }
+    }
+    throw std::runtime_error("\nError! No key found!");
+}
 
+
+//Search by value function
+template<class K, class V>
+V searchByValue(AVL_Tree<std::pair<K,V>> tree, V value)
+{
+    for(TreeIterator it = tree.Find_Left(); it != tree.end(); it++)
+    {
+        if(it.getData()->getData().second == value)
+        {
+            std::cout << "\nValue " << value << " found.\tKey by value: " << it.getData()->getData().first << "\n";
+            return it.getData()->getData().second;
+        }
+    }
+    throw std::runtime_error("\nError! No value found!");
+}
 
 int main()
 {
-    AVL_Tree<int> T;
-    int arr[15];
-    int i = 0;
-    for (i = 0; i < 15; i++) arr[i] = (int)(100 * cos(15 * double(i+1)));
-    for (i = 0; i < 15; i++)
-        T.Add(arr[i]);
+    Series MrR("Mister Robot", "Sam Esmail", "USA", 4, 88, 92, 24062015);
+    Series GoT("Game Of Thrones", "David Benioff", "USA", 8, 100, 92, 17042011);
+    Series TwD("The Walking Dead", "Jolly Dale", "USA", 10, 84, 94, 31102010);
+    Series Fb("Family Business", "Carl Weber", "France", 2, 73, 89, 28062019);
 
-    Node<int>* M = T.Min();
-    cout << "\nMin = " << M->getData() << "\tFind " << arr[3] << ": " << T.Find_R(arr[3], T.getRoot());
+    std::pair <std::string, Series> MR; MR.first = std::string("MrR"); MR.second = MrR;
+    std::pair <std::string, Series> GOT; GOT.first = std::string("GoT"); GOT.second = GoT;
+    std::pair <std::string, Series> TWD; TWD.first = std::string("TwD"); TWD.second = TwD;
+    std::pair <std::string, Series> FB; FB.first = std::string("FB"); FB.second = Fb;
 
-//    void (*f_ptr)(Node<double>*); f_ptr = print;
-    /*cout << "\n-----\nPreorder:";
-    T.PreOrder(T.getRoot(), f_ptr);*/
-//    cout << "\n-----\nInorder:";
-//    T.InOrder(T.getRoot(), f_ptr);
-    /*cout << "\n-----\nPostorder:";
-    T.PostOrder(T.getRoot(), f_ptr);*/
+    AVL_Tree<std::pair<std::string, Series>> T;
+    T.Add(MR); T.Add(GOT); T.Add(TWD); T.Add(FB);
 
-    cout << "\nIterators:\n";
-    T.iterator = T.getRoot();
+    Node<std::pair<std::string, Series>>* M = T.Min();
+    Series tmp = M->getData().second;
+    std::cout << "\nMin = " << tmp;
+    std::cout << "\tFind " << TWD.second.getTitle() << ": " << T.Find_R(TWD, T.getRoot());
+
+    void (*f_ptr)(Node<std::pair<std::string, Series>>*); f_ptr = print;
+    std::cout << "\n-----\nPreorder:";
+    T.PreOrder(T.getRoot(), f_ptr);
+    std::cout << "\n-----\nInorder:";
+    T.InOrder(T.getRoot(), f_ptr);
+    std::cout << "\n-----\nPostorder:";
+    T.PostOrder(T.getRoot(), f_ptr);
+
+    try
+    {
+        std::cout << "\n-----\nSearch by key: ";
+        searchByKey(T, std::string("MrR"));
+        searchByKey(T, std::string("Random string"));
+    } catch(const std::runtime_error& e){ std::cout << e.what(); };
+
+    try
+    {
+        std::cout << "\n-----\nSearch by value: ";
+        searchByValue(T, Fb);
+        searchByValue(T, Series());
+    } catch(const std::runtime_error& e){ std::cout << e.what(); };
+    
+    std::cout << "\n-----\nIterators:";
+    T.iterator = T.Find_Left();
     while (T.iterator != T.end())
     {
-        cout << *T.iterator << " ";
+        std::cout << *T.iterator << " ";
         T.iterator++;
     }
-//    cout << *T.iterator << " ";
 
     return 0;
 }

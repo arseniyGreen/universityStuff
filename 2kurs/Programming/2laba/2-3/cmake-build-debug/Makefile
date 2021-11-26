@@ -129,6 +129,30 @@ depend:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/2_3.dir/build.make CMakeFiles/2_3.dir/build
 .PHONY : 2_3/fast
 
+algs.o: algs.cpp.o
+.PHONY : algs.o
+
+# target to build an object file
+algs.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/2_3.dir/build.make CMakeFiles/2_3.dir/algs.cpp.o
+.PHONY : algs.cpp.o
+
+algs.i: algs.cpp.i
+.PHONY : algs.i
+
+# target to preprocess a source file
+algs.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/2_3.dir/build.make CMakeFiles/2_3.dir/algs.cpp.i
+.PHONY : algs.cpp.i
+
+algs.s: algs.cpp.s
+.PHONY : algs.s
+
+# target to generate assembly for a file
+algs.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/2_3.dir/build.make CMakeFiles/2_3.dir/algs.cpp.s
+.PHONY : algs.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... 2_3"
+	@echo "... algs.o"
+	@echo "... algs.i"
+	@echo "... algs.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
