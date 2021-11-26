@@ -231,11 +231,15 @@ public:
 template<typename ValueType>
 class TreeIterator : public std::iterator<std::input_iterator_tag, ValueType>
 {
+private:
+    Node<ValueType>* ptr;
+    Tree<ValueType>* T;
+
 public:
     TreeIterator() { ptr = nullptr; T = nullptr; }
-    //ListIterator(ValueType* p) { ptr = p; }
-    TreeIterator(Tree<ValueType>* t, Node<ValueType>* p) {  }
-    TreeIterator(const TreeIterator& it) {  }
+//    ListIterator(ValueType* p) { ptr = p; }
+    TreeIterator(Node<ValueType>* p) { ptr = p; }
+    TreeIterator(const TreeIterator& it) { ptr = it.ptr; }
 
     bool operator!=(TreeIterator const& other) const { return ptr != other.ptr; }
     bool operator==(TreeIterator const& other) const { return ptr == other.ptr; }
@@ -245,40 +249,72 @@ public:
 //        else{ return *ptr; }
         return *ptr;
     }
+
+    // Pre
     TreeIterator& operator++()
     {
+//        if(ptr->getRight())
+//        {
+//            ptr = ptr->getRight();
+//            while(ptr->getLeft() != nullptr)
+//            {
+//                ptr = ptr->getLeft();
+//            }
+//        }
+//        else
+//        {
+//            Node<ValueType>* before;
+//            do{
+//                before = ptr;
+//                ptr = ptr->getParent();
+//            }while(ptr != nullptr && before == ptr->getRight());
+//        }
+//        return *this;
+
         Node<ValueType>* p;
         if(ptr == nullptr)
+        {//ptr = ptr.getleft
+            if(ptr == nullptr) while(ptr->getLeft() != nullptr) ptr = ptr->getLeft();
+        }
+        else if(ptr->getRight() != nullptr){ ptr = ptr->getRight(); while(ptr->getLeft() != nullptr) ptr = ptr->getLeft(); }
+        else
         {
-            ptr = T->getRoot();
-            if(ptr == nullptr){ std::cerr << "\nError."; return nullptr; }
-            while(ptr->getLeft() != nullptr) ptr = ptr->getLeft();
-        }
-        else {
-            if (ptr->getRight() != nullptr) {
-                ptr = ptr->getRight();
-                while (ptr->getLeft() != nullptr) { ptr = ptr->getLeft(); }
-            } else {
-                p = ptr->getParent();
-                while (ptr != nullptr && ptr != p->getRight()) {
-                    ptr = p;
-                    ptr = ptr->getParent();
-                }
-            }
+            p = ptr->getParent();
+            while(p != nullptr && ptr == p->getRight()){ ptr = p; p = p->getParent(); }
             ptr = p;
-            return *this;
         }
+        return *this;
     }
+
+    // Post
     TreeIterator& operator++(int v)
     {
-
+//        TreeIterator<ValueType> old(*this);
+//        ++(*this);
+//        return old;
+        if(!ptr) return *this;
+        else {
+            Node<ValueType> *p;
+            auto *temp = new TreeIterator<ValueType>(ptr);
+            if (ptr == nullptr) { while (ptr->getLeft() != nullptr) ptr = ptr->getLeft(); }
+            else if (ptr->getRight() != nullptr) {
+                ptr = ptr->getRight();
+                while (ptr->getLeft() != nullptr) ptr = ptr->getLeft();
+            }
+            else {
+                p = ptr->getParent();
+                while (p != nullptr && ptr == p->getRight()) {
+                    ptr = p;
+                    p = p->getParent();
+                }
+                ptr = p;
+            }
+            return *temp;
+        }
     }
 
-    TreeIterator& operator=(const TreeIterator& it) { ptr = it.ptr; }
-    TreeIterator& operator=(Node<ValueType>* p) { ptr = p; }
-private:
-    Node<ValueType>* ptr;
-    Tree<ValueType>* T;
+    TreeIterator& operator=(const TreeIterator& it) { ptr = it.ptr; return *this; }
+    TreeIterator& operator=(Node<ValueType>* p) { ptr = p; return *this; }
 };
 
 template<class T>
@@ -289,8 +325,8 @@ public:
 
     TreeIterator<T> iterator;
 
-    TreeIterator<T> begin() { TreeIterator<T> it = TreeIterator<T>(this, Tree<T>::Min()); return it; }
-    TreeIterator<T> end() { TreeIterator<T> it = TreeIterator<T>(this, Tree<T>::Max()); return it; }
+    TreeIterator<T> begin() { TreeIterator<T> it = TreeIterator<T>(Tree<T>::Min()); return it; }
+    TreeIterator<T> end() { TreeIterator<T> it = TreeIterator<T>(Tree<T>::Max()); return it; }
 };
 
 //AVL_Tree - потомок класса Tree
@@ -419,14 +455,14 @@ public:
 
 int main()
 {
-    AVL_Tree<double> T;
+    AVL_Tree<int> T;
     int arr[15];
     int i = 0;
     for (i = 0; i < 15; i++) arr[i] = (int)(100 * cos(15 * double(i+1)));
     for (i = 0; i < 15; i++)
         T.Add(arr[i]);
 
-    Node<double>* M = T.Min();
+    Node<int>* M = T.Min();
     cout << "\nMin = " << M->getData() << "\tFind " << arr[3] << ": " << T.Find_R(arr[3], T.getRoot());
 
 //    void (*f_ptr)(Node<double>*); f_ptr = print;
@@ -437,8 +473,6 @@ int main()
     /*cout << "\n-----\nPostorder:";
     T.PostOrder(T.getRoot(), f_ptr);*/
 
-    Node<double>* left = T.Find_Left();
-
     cout << "\nIterators:\n";
     T.iterator = T.getRoot();
     while (T.iterator != T.end())
@@ -446,7 +480,7 @@ int main()
         cout << *T.iterator << " ";
         T.iterator++;
     }
-    cout << *T.iterator << " ";
+//    cout << *T.iterator << " ";
 
     return 0;
 }
