@@ -1,15 +1,14 @@
 #include <iostream>
 #include <exception>
-#include <stack>
 #include "Series.h"
 
 //узел
-template<class T>
+template<class K, class V>
 class Node
 {
 protected:
-    //закрытые переменные Node N; N.data = 10 вызовет ошибку
-    T data;
+    V data;
+    K key;
 
     //не можем хранить Node, но имеем право хранить указатель
     Node* left;
@@ -20,8 +19,10 @@ protected:
     int height;
 public:
     //доступные извне переменные и функции
-    virtual void setData(T d) { data = d; }
-    virtual T getData() { return data; }
+    virtual void setData(V d) { data = d; }
+    virtual void setKey(K k){ key = k; }
+    virtual V getData() { return data; }
+    virtual K getKey() { return key; }
     int getHeight() { return height; }
 
     virtual Node* getLeft() { return left; }
@@ -33,14 +34,15 @@ public:
     virtual void setParent(Node* N) { parent = N; }
 
     //Конструктор. Устанавливаем стартовые значения для указателей
-    Node<T>(T n)
+    Node<K, V>(K k, V n)
     {
         data = n;
+        key = k;
         left = right = parent = nullptr;
         height = 1;
     }
 
-    Node<T>()
+    Node()
     {
         left = nullptr;
         right = nullptr;
@@ -52,7 +54,7 @@ public:
 
     virtual void print()
     {
-        std::cout << "\n" << data.second;
+        std::cout << "\n" << data;
     }
 
     virtual void setHeight(int h)
@@ -60,42 +62,42 @@ public:
         height = h;
     }
 
-    template<class T1> friend std::ostream& operator<< (std::ostream& stream, Node<T1>& N);
+    template<class T1, class T2> friend std::ostream& operator<< (std::ostream& stream, Node<T1, T2>& N);
 };
 
-template<class T>
-std::ostream& operator<< (std::ostream& stream, Node<T>& N)
+template<class T1, class T2>
+std::ostream& operator<< (std::ostream& stream, Node<T1, T2>& N)
 {
-    stream << "\nNode data: " << N.data.second << ", height: " << N.height;
+    stream << "\nNode key: " << N.key <<  "\nNode data: " << N.data << ", height: " << N.height;
     return stream;
 }
-template<class T>
-void print(Node<T>* N)
+template<class T1, class T2>
+void print(Node<T1, T2>* N)
 {
-    Series tmp = N->getData().second;
-    std::cout << "\n"<< "Key: " << N->getData().first << "\tData :" << tmp;
+    Series tmp = N->getData();
+    std::cout << "\n"<< "Key: " << N->getKey() << "\tData :" << tmp;
 }
 
-template<class T>
+template<class K, class V>
 class Tree
 {
 protected:
     //корень - его достаточно для хранения всего дерева
-    Node<T>* root;
+    Node<K, V>* root;
 public:
     //доступ к корневому элементу
-    virtual Node<T>* getRoot() { return root; }
+    virtual Node<K, V>* getRoot() { return root; }
 
     //конструктор дерева: в момент создания дерева ни одного узла нет, корень смотрит в никуда
-    Tree<T>() { root = nullptr; }
+    Tree<K, V>() { root = nullptr; }
 
     //рекуррентная функция добавления узла. Устроена аналогично, но вызывает сама себя - добавление в левое или правое поддерево
-    virtual Node<T>* Add_R(Node<T>* N)
+    virtual Node<K, V>* Add_R(Node<K, V>* N)
     {
         return Add_R(N, root);
     }
 
-    virtual Node<T>* Add_R(Node<T>* New, Node<T>* Current)
+    virtual Node<K, V>* Add_R(Node<K, V>* New, Node<K, V>* Current)
     {
         if (New == nullptr) return nullptr;
         if (root == nullptr)
@@ -130,19 +132,19 @@ public:
     }
 
     //функция для добавления числа. Делаем новый узел с этими данными и вызываем нужную функцию добавления в дерево
-    virtual Node<T>* Add(T n)
+    virtual Node<K, V>* Add(K k, V n)
     {
-        Node<T>* N = new Node<T>(n);
+        Node<K, V>* N = new Node<K, V>(k, n);
         return Add_R(N);
     }
 
     //удаление узла
-    virtual void Remove(Node<T>* N)
-    {
-        //TODO
-    }
+//    virtual void Remove(Node<T>* N)
+//    {
+//        //TODO
+//    }
 
-    virtual Node<T>* Min(Node<T>* Current=nullptr)
+    virtual Node<K, V>* Min(Node<K, V>* Current=nullptr)
     {
         //минимум - это самый "левый" узел. Идём по дереву всегда влево
         if (root == nullptr) return nullptr;
@@ -155,7 +157,7 @@ public:
         return Current;
     }
 
-    virtual Node<T>* Max(Node<T>* Current = nullptr)
+    virtual Node<K, V>* Max(Node<K, V>* Current = nullptr)
     {
         //максимум - это самый "правый" узел. Идём по дереву всегда вправо
         if (root == nullptr) return nullptr;
@@ -170,21 +172,21 @@ public:
 
 
     //поиск узла в дереве
-    virtual Node<T>* Find(T data)
+    virtual Node<K, V>* Find(V data)
     {
         if (root == nullptr) return nullptr;
         return Find_R(data, root);
     }
 
-    virtual Node<T>* Find_Left()
+    virtual Node<K, V>* Find_Left()
     {
-        Node<T>* ptr = root;
+        Node<K, V>* ptr = root;
         while(ptr->getLeft() != nullptr){ ptr = ptr->getLeft(); }
         return ptr;
     }
 
     //поиск узла в дереве. Второй параметр - в каком поддереве искать, первый - что искать
-    virtual Node<T>* Find_R(T data, Node<T>* Current)
+    virtual Node<K, V>* Find_R(V data, Node<K, V>* Current)
     {
         //база рекурсии
         if (Current == nullptr) return nullptr;
@@ -199,7 +201,7 @@ public:
     }
 
     //три обхода дерева
-    virtual void PreOrder(Node<T>* N, void (*f)(Node<T>*))
+    virtual void PreOrder(Node<K, V>* N, void (*f)(Node<K, V>*))
     {
         if (N != nullptr)
             f(N);
@@ -210,7 +212,7 @@ public:
     }
 
     //InOrder-обход даст отсортированную последовательность
-    virtual void InOrder(Node<T>* N, void (*f)(Node<T>*))
+    virtual void InOrder(Node<K, V>* N, void (*f)(Node<K, V>*))
     {
         if (N != nullptr && N->getLeft() != nullptr)
             InOrder(N->getLeft(), f);
@@ -220,7 +222,7 @@ public:
             InOrder(N->getRight(), f);
     }
 
-    virtual void PostOrder(Node<T>* N, void (*f)(Node<T>*))
+    virtual void PostOrder(Node<K, V>* N, void (*f)(Node<K, V>*))
     {
         if (N != nullptr && N->getLeft() != nullptr)
             PostOrder(N->getLeft(), f);
@@ -231,21 +233,21 @@ public:
     }
 };
 
-template<typename ValueType>
+template<class K, typename ValueType>
 class TreeIterator : public std::iterator<std::input_iterator_tag, ValueType>
 {
 private:
-    Node<ValueType>* ptr;
-    Tree<ValueType>* T;
+    Node<K, ValueType>* ptr;
+    Tree<K, ValueType>* T;
 
 public:
     TreeIterator() { ptr = nullptr; T = nullptr; }
-    TreeIterator(Node<ValueType>* p) { ptr = p; }
+    TreeIterator(Node<K, ValueType>* p) { ptr = p; }
     TreeIterator(const TreeIterator& it) { ptr = it.ptr; }
 
     bool operator!=(TreeIterator const& other) const { return ptr != other.ptr; }
     bool operator==(TreeIterator const& other) const { return ptr == other.ptr; }
-    Node<ValueType>& operator*()
+    Node<K, ValueType>& operator*()
     {
         if(ptr == nullptr){ std::cerr << "\nNo iterator found."; }
         else{ return *ptr; }
@@ -264,7 +266,7 @@ public:
         }
         else
         {
-            Node<ValueType>* before;
+            Node<K, ValueType>* before;
             do{
                 before = ptr;
                 ptr = ptr->getParent();
@@ -276,36 +278,37 @@ public:
     // Post
     TreeIterator& operator++(int v)
     {
-        TreeIterator<ValueType> old(*this);
+        TreeIterator<K, ValueType> old(*this);
         ++(*this);
         return old;
     }
 
-    Node<ValueType>* getData(){ return ptr; }
+    ValueType getData(){ return ptr->getData(); }
+    K getKey(){ return ptr->getKey(); }
 
     TreeIterator& operator=(const TreeIterator& it) { ptr = it.ptr; return *this; }
-    TreeIterator& operator=(Node<ValueType>* p) { ptr = p; return *this; }
+    TreeIterator& operator=(Node<K, ValueType>* p) { ptr = p; return *this; }
 };
 
-template<class T>
-class IteratedTree : public Tree<T>
+template<class K, class V>
+class IteratedTree : public Tree<K, V>
 {
 public:
-    IteratedTree<T>() : Tree<T>() {}
+    IteratedTree<K, V>() : Tree<K, V>() {}
 
-    TreeIterator<T> iterator;
+    TreeIterator<K, V> iterator;
 
-    TreeIterator<T> begin() { TreeIterator<T> it = TreeIterator<T>(Tree<T>::Min()); return it; }
-    TreeIterator<T> end() { TreeIterator<T> it = TreeIterator<T>(Tree<T>::Max()); return it; }
+    TreeIterator<K, V> begin() { TreeIterator<K, V> it = TreeIterator<K, V>(Tree<K, V>::Min()); return it; }
+    TreeIterator<K, V> end() { TreeIterator<K, V> it = TreeIterator<K, V>(Tree<K, V>::Max()); return it; }
 };
 
 //AVL_Tree - потомок класса Tree
-template<class T>
-class AVL_Tree : public IteratedTree<T>
+template<class K, class V>
+class AVL_Tree : public IteratedTree<K, V>
 {
 protected:
     //определение разности высот двух поддеревьев
-    int bfactor(Node<T>* p)
+    int bfactor(Node<K, V>* p)
     {
         int hl = 0;
         int hr = 0;
@@ -319,7 +322,7 @@ protected:
     //при добавлении узлов в них нет информации о балансе, т.к. не ясно, куда в дереве они попадут
     //после добавления узла рассчитываем его высоту (расстояние до корня) и редактируем высоты в узлах, где это
     //значение могло поменяться
-    void fixHeight(Node<T>* p)
+    void fixHeight(Node<K, V>* p)
     {
         int hl = 0;
         int hr = 0;
@@ -331,13 +334,13 @@ protected:
     }
 
     //краеугольные камни АВЛ-деревьев - процедуры поворотов
-    Node<T>* RotateRight(Node<T>* p) // правый поворот вокруг p
+    Node<K, V>* RotateRight(Node<K, V>* p) // правый поворот вокруг p
     {
-        Node<T>* q = p->getLeft();
+        Node<K, V>* q = p->getLeft();
         p->setLeft(q->getRight());
         q->setRight(p);
-        if (p == Tree<T>::root)
-            Tree<T>::root = q;
+        if (p == Tree<K, V>::root)
+            Tree<K, V>::root = q;
 
         q->setParent(p->getParent());
         p->setParent(q);
@@ -348,13 +351,13 @@ protected:
         return q;
     }
 
-    Node<T>* RotateLeft(Node<T>* q) // левый поворот вокруг q
+    Node<K, V>* RotateLeft(Node<K, V>* q) // левый поворот вокруг q
     {
-        Node<T>* p = q->getRight();
+        Node<K, V>* p = q->getRight();
         q->setRight(p->getLeft());
         p->setLeft(q);
-        if (q == Tree<T>::root)
-            Tree<T>::root = p;
+        if (q == Tree<K, V>::root)
+            Tree<K, V>::root = p;
 
         p->setParent(q->getParent());
         q->setParent(p);
@@ -366,7 +369,7 @@ protected:
     }
 
     //балансировка поддерева узла p - вызов нужных поворотов в зависимости от показателя баланса
-    Node<T>* Balance(Node<T>* p) // балансировка узла p
+    Node<K, V>* Balance(Node<K, V>* p) // балансировка узла p
     {
         fixHeight(p);
         if (bfactor(p) == 2)
@@ -393,46 +396,45 @@ protected:
 
 public:
     //конструктор AVL_Tree вызывает конструктор базового класса Tree
-    AVL_Tree<T>() : IteratedTree<T>() {}
+    AVL_Tree<K, V>() : IteratedTree<K, V>() {}
 
-    virtual Node<T>* Add_R(Node<T>* N)
+    virtual Node<K, V>* Add_R(Node<K, V>* N)
     {
-        return Add_R(N, Tree<T>::root);
+        return Add_R(N, Tree<K, V>::root);
     }
 
     //рекуррентная функция добавления узла. Устроена аналогично, но вызывает сама себя - добавление в левое или правое поддерево
-    virtual Node<T>* Add_R(Node<T>* N, Node<T>* Current)
+    virtual Node<K, V>* Add_R(Node<K, V>* N, Node<K, V>* Current)
     {
         //вызываем функцию Add_R из базового класса
-        Node<T>* AddedNode = Tree<T>::Add_R(N, Current);
+        Node<K, V>* AddedNode = Tree<K, V>::Add_R(N, Current);
         //применяем к добавленному узлу балансировку
         return Balance(AddedNode);
     }
 
     //функция для добавления числа. Делаем новый узел с этими данными и вызываем нужную функцию добавления в дерево
-    virtual Node<T>* Add(T n)
+    virtual Node<K, V>* Add(K k, V n)
     {
-        Node<T>* N = new Node<T>(n);
+        Node<K, V>* N = new Node<K, V>(k, n);
         return Add_R(N);
     }
 
     //удаление узла
-    virtual void Remove(Node<T>* N)
+    virtual void Remove(Node<K, V>* N)
     { }
 };
 
 //Search by key function
 template<class K, class V>
-V searchByKey(AVL_Tree<std::pair<K, V>> tree, K k)
+V searchByKey(AVL_Tree<K, V> tree, K k)
 {
     for(TreeIterator it = tree.Find_Left(); it != tree.end(); it++)
     {
-//        K current = it.getData()->getData().first;
-        if(it.getData()->getData().first == k)
+        if(it.getKey() == k)
         {
-            V tmp = it.getData()->getData().second;
-            std::cout << "\nKey " << k << " found.\tValue by key: " << tmp << "\n";
-            return tmp;
+            V data = it.getData();
+            std::cout << "\nKey " << k << " found.\tValue by key: " << data << "\n";
+            return it.getData();
         }
     }
     throw std::runtime_error("\nError! No key found!");
@@ -441,14 +443,14 @@ V searchByKey(AVL_Tree<std::pair<K, V>> tree, K k)
 
 //Search by value function
 template<class K, class V>
-V searchByValue(AVL_Tree<std::pair<K,V>> tree, V value)
+K searchByValue(AVL_Tree<K,V> tree, V value)
 {
     for(TreeIterator it = tree.Find_Left(); it != tree.end(); it++)
     {
-        if(it.getData()->getData().second == value)
+        if(it.getData() == value)
         {
-            std::cout << "\nValue " << value << " found.\tKey by value: " << it.getData()->getData().first << "\n";
-            return it.getData()->getData().second;
+            std::cout << "\nValue " << value << " found.\tKey by value: " << it.getKey() << "\n";
+            return it.getKey();
         }
     }
     throw std::runtime_error("\nError! No value found!");
@@ -461,20 +463,14 @@ int main()
     Series TwD("The Walking Dead", "Jolly Dale", "USA", 10, 84, 94, 31102010);
     Series Fb("Family Business", "Carl Weber", "France", 2, 73, 89, 28062019);
 
-    std::pair <std::string, Series> MR; MR.first = std::string("MrR"); MR.second = MrR;
-    std::pair <std::string, Series> GOT; GOT.first = std::string("GoT"); GOT.second = GoT;
-    std::pair <std::string, Series> TWD; TWD.first = std::string("TwD"); TWD.second = TwD;
-    std::pair <std::string, Series> FB; FB.first = std::string("FB"); FB.second = Fb;
+    AVL_Tree<std::string, Series> T;
+    T.Add("MrR", MrR); T.Add("GoT", GoT); T.Add("TwD", TwD); T.Add("FB", Fb);
 
-    AVL_Tree<std::pair<std::string, Series>> T;
-    T.Add(MR); T.Add(GOT); T.Add(TWD); T.Add(FB);
+    Node<std::string, Series>* M = T.Min();
+    std::cout << "\nMin = " << M->getData().getTitle();
+    std::cout << "\tFind " << TwD.getTitle() << ": " << T.Find_R(TwD, T.getRoot());
 
-    Node<std::pair<std::string, Series>>* M = T.Min();
-    Series tmp = M->getData().second;
-    std::cout << "\nMin = " << tmp;
-    std::cout << "\tFind " << TWD.second.getTitle() << ": " << T.Find_R(TWD, T.getRoot());
-
-    void (*f_ptr)(Node<std::pair<std::string, Series>>*); f_ptr = print;
+    void (*f_ptr)(Node<std::string, Series>*); f_ptr = print;
     std::cout << "\n-----\nPreorder:";
     T.PreOrder(T.getRoot(), f_ptr);
     std::cout << "\n-----\nInorder:";
@@ -495,7 +491,7 @@ int main()
         searchByValue(T, Fb);
         searchByValue(T, Series());
     } catch(const std::runtime_error& e){ std::cout << e.what(); };
-    
+
     std::cout << "\n-----\nIterators:";
     T.iterator = T.Find_Left();
     while (T.iterator != T.end())
