@@ -1,4 +1,4 @@
-# Install script for directory: /home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3
+# Install script for directory: /home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

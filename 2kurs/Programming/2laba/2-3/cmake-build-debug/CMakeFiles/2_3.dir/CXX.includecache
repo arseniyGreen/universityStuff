@@ -6,13 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/Series.h
+/home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-3/Series.h
 
-/home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/main.cpp
+/home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-3/algs.cpp
+
+/home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-3/main.cpp
 iostream
 -
 exception
 -
 Series.h
-/home/arseniy/Documents/universityStuff/2kurs/Programming/2laba/2-3/Series.h
+/home/notahacker/Documents/universityStuff/2kurs/Programming/2laba/2-3/Series.h
 

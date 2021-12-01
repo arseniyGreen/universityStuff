@@ -90,6 +90,28 @@ public:
 
     //конструктор дерева: в момент создания дерева ни одного узла нет, корень смотрит в никуда
     Tree<K, V>() { root = nullptr; }
+    /* Destructor */
+    ~Tree<K, V>()
+    {
+        std::cout << "\nTree destructor invoked.";
+        if(root == nullptr) return;
+        clearNode(root);
+        delete root;
+        std::cout << "\nTree destructor done.";
+    }
+    virtual void clearNode(Node<K,V>* node)
+    {
+        if(node->getLeft())
+        {
+            clearNode(node->getLeft());
+            delete(node->getLeft());
+        }
+        if(node->getRight())
+        {
+            clearNode(node->getRight());
+            delete(node->getLeft());
+        }
+    }
 
     //рекуррентная функция добавления узла. Устроена аналогично, но вызывает сама себя - добавление в левое или правое поддерево
     virtual Node<K, V>* Add_R(Node<K, V>* N)
