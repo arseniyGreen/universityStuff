@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Notahacker/Documents/GitHub/universityStuff/2kurs/Programming/3laba/1/main.cpp
+iostream
+-
+iomanip
+-
+vector
+-
+algorithm
+-
+

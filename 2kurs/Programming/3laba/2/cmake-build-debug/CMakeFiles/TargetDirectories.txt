@@ -1,0 +1,3 @@
+C:/Users/Notahacker/Documents/GitHub/universityStuff/2kurs/Programming/3laba/2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Notahacker/Documents/GitHub/universityStuff/2kurs/Programming/3laba/2/cmake-build-debug/CMakeFiles/2.dir
+C:/Users/Notahacker/Documents/GitHub/universityStuff/2kurs/Programming/3laba/2/cmake-build-debug/CMakeFiles/edit_cache.dir
